@@ -13,7 +13,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
   });
   const { data, setData, errors, processing } = form;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     onSubmit(form);
   };
@@ -32,23 +32,23 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.title && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(title).join(', ')}
+            {Array(errors.title).join(', ')}
           </div>
         )}
       </div>
       <div className="my-5">
         <label htmlFor="body">Body</label>
-        <textarea
+        <Textarea
           name="body"
           id="body"
           value={data.body}
-          rows="4"
+          rows={4}
           className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('body', e.target.value)}
         />
         {errors.body && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(body).join(', ')}
+            {Array(errors.body).join(', ')}
           </div>
         )}
       </div>
@@ -64,7 +64,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.author && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(author).join(', ')}
+            {Array(errors.author).join(', ')}
           </div>
         )}
       </div>
@@ -80,7 +80,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.published_at && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(published_at).join(', ')}
+            {Array(errors.published_at).join(', ')}
           </div>
         )}
       </div>
@@ -96,7 +96,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.status && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(status).join(', ')}
+            {Array(errors.status).join(', ')}
           </div>
         )}
       </div>
@@ -112,7 +112,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.featured && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(featured).join(', ')}
+            {Array(errors.featured).join(', ')}
           </div>
         )}
       </div>

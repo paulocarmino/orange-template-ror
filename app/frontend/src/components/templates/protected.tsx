@@ -44,23 +44,24 @@ import {
   SidebarMenuSubItem,
   SidebarProvider,
 } from "@src/components/ui/sidebar";
-import { Toaster } from "./ui/sonner";
-import { ModeToggle } from "./mode-toggle";
-import { useTheme } from "../providers/theme-provider";
+import { Toaster } from "@ui/sonner";
+import { ModeToggle } from "@components/mode-toggle";
+import { useTheme } from "@src/providers/theme-provider";
 
 import * as routes from "@src/routes";
 import { Link, usePage } from "@inertiajs/react";
-import ToastListener from "./toast-listener";
+import ToastListener from "@components/toast-listener";
 
-export default function TemplateDefault({ children }: any) {
+export default function ProtectedTemplate({ children }: any) {
   const { theme } = useTheme();
   const { props } = usePage();
+  const { auth } = props as any;
   const models: any = props.models || [];
 
   const data = {
     user: {
-      name: "Paulo Carmino",
-      email: "paulocarmino@gmail.com",
+      name: auth.user.full_name,
+      email: auth.user.email,
       avatar: "https://ui.shadcn.com/avatars/shadcn.jpg",
     },
     navMain: models.map((model: any) => ({
@@ -258,9 +259,11 @@ export default function TemplateDefault({ children }: any) {
                     </DropdownMenuItem>
                   </DropdownMenuGroup>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
-                    <LogOut />
-                    Log out
+                  <DropdownMenuItem asChild>
+                    <Link href={routes.destroy_user_session()} method="delete">
+                      <LogOut />
+                      Log out
+                    </Link>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>

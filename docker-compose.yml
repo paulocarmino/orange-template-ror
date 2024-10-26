@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  postgres:
+    image: postgres
+    ports:
+      - "0.0.0.0:5432:5432"
+    environment:
+      POSTGRES_USER: template
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: template_production
+
+  redis:
+    image: redis
+    command: redis-server
+    ports:
+      - "6379:6379"
+
+  mailcatcher:
+    image: dockage/mailcatcher:latest
+    ports:
+      - "1080:1080"
+      - "0.0.0.0:1025:1025"

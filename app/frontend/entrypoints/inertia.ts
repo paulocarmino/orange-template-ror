@@ -1,7 +1,7 @@
 import { createInertiaApp } from "@inertiajs/react";
 import { createElement, ReactNode } from "react";
 import { createRoot } from "react-dom/client";
-import TemplateDefault from "@components/template";
+import TemplateDefault from "@components/templates/default";
 import { ThemeProvider } from "../src/providers/theme-provider";
 import { CableProvider } from "../src/providers/cable-provider";
 

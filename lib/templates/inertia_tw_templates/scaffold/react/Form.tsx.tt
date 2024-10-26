@@ -15,7 +15,7 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
   });
   const { data, setData, errors, processing } = form;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault();
     onSubmit(form);
   };
@@ -57,11 +57,11 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
 <% else -%>
         <label htmlFor="<%= attribute.singular_name %>"><%= attribute.human_name %></label>
 <% if input_type(attribute) == "text_area" -%>
-        <textarea
+        <Textarea
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
-          rows="4"
+          rows={4}
           className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
@@ -103,7 +103,7 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
 <% end -%>
         {errors.<%= attribute.column_name %> && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.Array(<%= attribute.column_name %>).join(', ')}
+            {Array(errors.<%= attribute.column_name %>).join(', ')}
           </div>
         )}
 <% end -%>
