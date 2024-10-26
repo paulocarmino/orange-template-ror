@@ -12,10 +12,9 @@ import { Label } from "@ui/label";
 
 import * as routes from "@src/routes";
 
-export default function LoginPage() {
+export default function ResetPasswordPage() {
   const form = useForm({
     email: "",
-    password: "",
   });
   const { data, setData, errors, processing } = form;
 
@@ -24,19 +23,19 @@ export default function LoginPage() {
 
     // @ts-ignore
     form.transform((data: any) => ({
-      user: { email: data.email, password: data.password },
+      user: { email: data.email },
     }));
-    form.post(routes.user_session());
+    form.post(routes.user_password());
   };
 
   return (
     <>
-      <Head title="Login" />
+      <Head title="Reset Password" />
 
       <CardHeader>
-        <CardTitle className="text-2xl">Login</CardTitle>
+        <CardTitle className="text-2xl">Reset Password</CardTitle>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your email below to reset your password
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -53,34 +52,17 @@ export default function LoginPage() {
                 required
               />
             </div>
-            <div className="grid gap-2">
-              <div className="flex items-center">
-                <Label htmlFor="password">Password</Label>
-                <Link
-                  href={routes.new_user_password()}
-                  className="inline-block ml-auto text-sm underline"
-                >
-                  Forgot your password?
-                </Link>
-              </div>
-              <Input
-                id="password"
-                type="password"
-                value={data.password}
-                onChange={(e) => setData("password", e.target.value)}
-                required
-              />
-            </div>
+
             <Button type="submit" className="w-full">
-              {processing ? "Loading..." : "Login"}
+              {processing ? "Loading..." : "Reset password"}
             </Button>
           </div>
         </form>
 
         <div className="mt-4 text-sm text-center">
-          Don&apos;t have an account?{" "}
-          <Link href={routes.new_user_registration()} className="underline">
-            Sign up
+          Already have an account?{" "}
+          <Link href={routes.new_user_session()} className="underline">
+            Sign in
           </Link>
         </div>
       </CardContent>

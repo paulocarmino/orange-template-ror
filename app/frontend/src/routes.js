@@ -569,11 +569,27 @@ export const edit_article = /*#__PURE__*/ __jsr.r({"id":{"r":true},"format":{}},
 
 /**
  * Generates rails route to
+ * /users/password/edit(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const edit_user_password = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[2,[7,"/"],[2,[6,"password"],[2,[7,"/"],[2,[6,"edit"],[1,[2,[8,"."],[3,"format"]]]]]]]]]);
+
+/**
+ * Generates rails route to
  * /articles/new(.:format)
  * @param {object | undefined} options
  * @returns {string} route path
  */
 export const new_article = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"articles"],[2,[7,"/"],[2,[6,"new"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /users/password/new(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const new_user_password = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[2,[7,"/"],[2,[6,"password"],[2,[7,"/"],[2,[6,"new"],[1,[2,[8,"."],[3,"format"]]]]]]]]]);
 
 /**
  * Generates rails route to
@@ -617,11 +633,19 @@ export const root = /*#__PURE__*/ __jsr.r({}, [7,"/"]);
 
 /**
  * Generates rails route to
- * /users(.:format)
+ * /users/password(.:format)
  * @param {object | undefined} options
  * @returns {string} route path
  */
-export const user_registration = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[1,[2,[8,"."],[3,"format"]]]]]);
+export const user_password = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[2,[7,"/"],[2,[6,"password"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /users/sign_up(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const user_registration = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[2,[7,"/"],[2,[6,"sign_up"],[1,[2,[8,"."],[3,"format"]]]]]]]);
 
 /**
  * Generates rails route to
@@ -630,4 +654,12 @@ export const user_registration = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"]
  * @returns {string} route path
  */
 export const user_session = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[2,[7,"/"],[2,[6,"sign_in"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /users/password(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const users_password = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"users"],[2,[7,"/"],[2,[6,"password"],[1,[2,[8,"."],[3,"format"]]]]]]]);
 

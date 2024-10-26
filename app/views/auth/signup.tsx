@@ -37,7 +37,7 @@ export default function SingupPage() {
 
   return (
     <div className="flex justify-center items-center px-4 w-full h-screen">
-      <Head title="Login" />
+      <Head title="Sign Up" />
 
       <Card className="mx-auto max-w-sm">
         <CardHeader>

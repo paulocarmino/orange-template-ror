@@ -6,7 +6,12 @@ Rails.application.routes.draw do
     match "users/sign_out", to: "users/sessions#destroy", as: :destroy_user_session, via: Devise.mappings[:user].sign_out_via
 
     get "users/sign_up", to: "users/registrations#new", as: :new_user_registration
-    post "users", to: "users/registrations#create", as: :user_registration
+    post "users/sign_up", to: "users/registrations#create", as: :user_registration
+
+    get "users/password/new", to: "users/passwords#new", as: :new_user_password
+    get "users/password/edit", to: "users/passwords#edit", as: :edit_user_password
+    put "users/password", to: "users/passwords#update", as: :user_password
+    post "users/password", to: "users/passwords#create"
   end
   resources :articles
 
