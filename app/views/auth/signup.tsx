@@ -36,63 +36,61 @@ export default function SingupPage() {
   };
 
   return (
-    <div className="flex justify-center items-center px-4 w-full h-screen">
+    <>
       <Head title="Sign Up" />
 
-      <Card className="mx-auto max-w-sm">
-        <CardHeader>
-          <CardTitle className="text-xl">Sign Up</CardTitle>
-          <CardDescription>
-            Enter your information to create an account
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={handleSubmit}>
-            <div className="grid gap-4">
-              <div className="grid gap-2">
-                <Label htmlFor="full_name">Full name</Label>
-                <Input
-                  id="full_name"
-                  type="text"
-                  placeholder="John Doe"
-                  value={data.full_name}
-                  onChange={(e) => setData("full_name", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  value={data.email}
-                  onChange={(e) => setData("email", e.target.value)}
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="password">Password</Label>
-                <Input
-                  id="password"
-                  type="password"
-                  value={data.password}
-                  onChange={(e) => setData("password", e.target.value)}
-                />
-              </div>
-              <Button type="submit" className="w-full">
-                {processing ? "Loading..." : "Create a account"}
-              </Button>
+      <CardHeader>
+        <CardTitle className="text-xl">Sign Up</CardTitle>
+        <CardDescription>
+          Enter your information to create an account
+        </CardDescription>
+      </CardHeader>
+      <CardContent>
+        <form onSubmit={handleSubmit}>
+          <div className="grid gap-4">
+            <div className="grid gap-2">
+              <Label htmlFor="full_name">Full name</Label>
+              <Input
+                id="full_name"
+                type="text"
+                placeholder="John Doe"
+                value={data.full_name}
+                onChange={(e) => setData("full_name", e.target.value)}
+                required
+              />
             </div>
-          </form>
-          <div className="mt-4 text-sm text-center">
-            Already have an account?{" "}
-            <Link href={routes.new_user_session()} className="underline">
-              Sign in
-            </Link>
+            <div className="grid gap-2">
+              <Label htmlFor="email">Email</Label>
+              <Input
+                id="email"
+                type="email"
+                placeholder="m@example.com"
+                value={data.email}
+                onChange={(e) => setData("email", e.target.value)}
+                required
+              />
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="password">Password</Label>
+              <Input
+                id="password"
+                type="password"
+                value={data.password}
+                onChange={(e) => setData("password", e.target.value)}
+              />
+            </div>
+            <Button type="submit" className="w-full">
+              {processing ? "Loading..." : "Create a account"}
+            </Button>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+        </form>
+        <div className="mt-4 text-sm text-center">
+          Already have an account?{" "}
+          <Link href={routes.new_user_session()} className="underline">
+            Sign in
+          </Link>
+        </div>
+      </CardContent>
+    </>
   );
 }
