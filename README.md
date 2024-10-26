@@ -8,14 +8,14 @@ I built this template to streamline my workflow using my favorite technologies. 
 
 ## Features at a Glance
 
-- **Rails 8**: Harness the latest features of Rails for a powerful backend.
-- **Vite**: Lightning-fast development with instant hot module reloading.
-- **React & Inertia.js**: Smooth SPA-like experiences without the hassle of managing APIs.
-- **TailwindCSS & ShadcnUI**: Quickly design beautiful, responsive UIs with my preferred UI toolkit.
-- **Devise Authentication**: Secure user authentication out of the box.
-- **Custom Scaffolding**: Enhanced generators for CRUD operations with auto-generated, custom data tables and a awesome UI.
-- **Dark Mode**: Built-in dark mode support for better user experience.
-- **SQLite**: Simple, zero-configuration database for development.
+- **🚀 Rails 8**: Harness the latest features of Rails for a powerful backend.
+- **⚡ Vite**: Lightning-fast development with instant hot module reloading.
+- **🔗 React & Inertia.js**: Smooth SPA-like experiences without the hassle of managing APIs.
+- **🎨 TailwindCSS & 🖌️ ShadcnUI**: Quickly design beautiful, responsive UIs with my preferred UI toolkit.
+- **🔐 Devise Authentication**: Secure user authentication out of the box.
+- **✏️ Custom Scaffolding**: Enhanced generators for CRUD operations with auto-generated, custom data tables and sidebars.
+- **🌑 Dark Mode**: Built-in dark mode support for better user experience.
+- **🗄️ SQLite**: Simple, zero-configuration database for development.
 
 ## Getting Started
 
