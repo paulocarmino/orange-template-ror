@@ -51,3 +51,7 @@ group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
   gem "web-console"
 end
+
+gem "inertia_rails-contrib", "~> 0.3.0"
+
+gem "vite_rails", "~> 3.0"
