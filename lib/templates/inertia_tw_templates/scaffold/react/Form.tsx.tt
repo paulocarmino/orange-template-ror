@@ -1,6 +1,6 @@
-import { useForm } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react';
 
-export default function Form({ <%= singular_table_name %>, onSubmit, submitText }) {
+export default function Form({ <%= singular_table_name %>, onSubmit, submitText }: any) {
   const form = useForm({
 <% attributes.each do |attribute| -%>
 <% if attribute.password_digest? -%>
@@ -10,57 +10,57 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
     <%= attribute.column_name %>: <%= singular_table_name %>.<%= attribute.column_name %> || <%= default_value(attribute) %>,
 <% end -%>
 <% end -%>
-  })
-  const { data, setData, errors, processing } = form
+  });
+  const { data, setData, errors, processing } = form;
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    onSubmit(form)
-  }
+    e.preventDefault();
+    onSubmit(form);
+  };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="contents">
 <% attributes.each do |attribute| -%>
+      <div className="my-5">
 <% if attribute.password_digest? -%>
-      <div>
-        <label style={{ display: 'block' }} htmlFor="password">
-          Password
-        </label>
+        <label htmlFor="password">Password</label>
         <input
           type="password"
           name="password"
           id="password"
+          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('password', e.target.value)}
         />
         {errors.password && (
-          <div style={{ color: 'red' }}>{errors.password.join(', ')}</div>
+          <div className="text-red-500 px-3 py-2 font-medium">
+            {errors.password.join(', ')}
+          </div>
         )}
       </div>
 
-      <div>
-        <label style={{ display: 'block' }} htmlFor="password_confirmation">
-          Password Confirmation
-        </label>
+      <div className="my-5">
+        <label htmlFor="password_confirmation">Password Confirmation</label>
         <input
           type="password"
           name="password_confirmation"
           id="password_confirmation"
+          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('password_confirmation', e.target.value)}
         />
         {errors.password_confirmation && (
-          <div style={{ color: 'red' }}>{errors.password_confirmation.join(', ')}</div>
+          <div className="text-red-500 px-3 py-2 font-medium">
+            {errors.password_confirmation.join(', ')}
+          </div>
         )}
-      </div>
 <% else -%>
-      <div>
-        <label style={{ display: 'block' }} htmlFor="<%= attribute.singular_name %>">
-          <%= attribute.human_name %>
-        </label>
+        <label htmlFor="<%= attribute.singular_name %>"><%= attribute.human_name %></label>
 <% if input_type(attribute) == "text_area" -%>
         <textarea
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
+          rows="4"
+          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
 <% elsif attribute.attachment? -%>
@@ -68,6 +68,7 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
           type="file"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
+          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.files[0])}
         />
 <% elsif attribute.attachments? -%>
@@ -76,6 +77,7 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
           multiple
           name="<%= attribute.singular_name %>[]"
           id="<%= attribute.singular_name %>"
+          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('<%= attribute.column_name %>', Array.from(e.target.files))}
         />
 <% elsif input_type(attribute) == "checkbox" -%>
@@ -83,7 +85,8 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
           type="<%= input_type(attribute) %>"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
-          checked={data.<%= attribute.column_name %>}
+          checked={!!data.<%= attribute.column_name %>}
+          className="block mt-2 h-5 w-5"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.checked)}
         />
 <% else -%>
@@ -92,20 +95,27 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
+          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
 <% end -%>
         {errors.<%= attribute.column_name %> && (
-          <div style={{ color: 'red' }}>{errors.<%= attribute.column_name %>.join(', ')}</div>
+          <div className="text-red-500 px-3 py-2 font-medium">
+            {errors.<%= attribute.column_name %>.join(', ')}
+          </div>
         )}
+<% end -%>
       </div>
 <% end -%>
-<% end -%>
-      <div>
-        <button type="submit" disabled={processing}>
+      <div className="inline">
+        <button
+          type="submit"
+          disabled={processing}
+          className="rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
+        >
           {submitText}
         </button>
       </div>
     </form>
-  )
+  );
 }

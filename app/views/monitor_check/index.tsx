@@ -37,21 +37,48 @@ import { DataTableViewOptions } from "@ui/column-toggle";
 
 export const columns: ColumnDef<any>[] = [
   {
-    accessorKey: "title",
+    accessorKey: "name",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Title" />
+      <DataTableColumnHeader column={column} title="Name" />
     ),
     cell: ({ row }) => {
-      return row.original.title.toString();
+      return row.original.name?.toString();
     },
   },
   {
-    accessorKey: "description",
+    accessorKey: "script",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Script" />
     ),
     cell: ({ row }) => {
-      return row.original.description.toString();
+      return row.original.script?.toString();
+    },
+  },
+  {
+    accessorKey: "check_frequency",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Check frequency" />
+    ),
+    cell: ({ row }) => {
+      return row.original.check_frequency?.toString();
+    },
+  },
+  {
+    accessorKey: "failure_count",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Failure count" />
+    ),
+    cell: ({ row }) => {
+      return row.original.failure_count?.toString();
+    },
+  },
+  {
+    accessorKey: "last_checked_at",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Last checked at" />
+    ),
+    cell: ({ row }) => {
+      return row.original.last_checked_at?.toString();
     },
   },
   {
@@ -59,12 +86,12 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex gap-2">
-          <Link href={routes.post(row.original.id)}>
+          <Link href={routes.monitor_check(row.original.id)}>
             <Button variant={"outline"} size="sm">
               View
             </Button>
           </Link>
-          <Link href={routes.edit_post(row.original.id)}>
+          <Link href={routes.edit_monitor_check(row.original.id)}>
             <Button variant={"outline"} size="sm">
               Edit
             </Button>
@@ -99,10 +126,10 @@ const DataTable = ({ data, columns }: any) => {
       <div className="flex justify-between items-center">
       <div className="flex items-center py-4 w-full">
         <Input
-          placeholder={`Filter by title...`}
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+          placeholder={`Filter by name...`}
+          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
+            table.getColumn("name")?.setFilterValue(event.target.value)
           }
           className="max-w-xs"
         />
@@ -152,7 +179,7 @@ const DataTable = ({ data, columns }: any) => {
   );
 };
 
-export default function Index({ posts }: any) {
+export default function Index({ monitor_checks }: any) {
   return (
     <>
       <header className="flex gap-2 items-center pt-8 shrink-0">
@@ -166,24 +193,24 @@ export default function Index({ posts }: any) {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Posts</BreadcrumbPage>
+                <BreadcrumbPage>Monitor checks</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </header>
 
-      <Head title="Posts" />
+      <Head title="Monitor checks" />
       <div className="mx-auto mt-2 w-full">
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold">Posts</h1>
+          <h1 className="text-4xl font-bold">Monitor checks</h1>
           <Button asChild>
-            <Link href={routes.new_post()}>New post</Link>
+            <Link href={routes.new_monitor_check()}>New monitor check</Link>
           </Button>
         </div>
 
         <div className="mt-4 min-w-full">
-          <DataTable columns={columns} data={posts} />
+          <DataTable columns={columns} data={monitor_checks} />
         </div>
       </div>
     </>

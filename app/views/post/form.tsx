@@ -1,9 +1,11 @@
-import { useForm } from "@inertiajs/react";
+import { useForm } from '@inertiajs/react';
+import { Input } from '@ui/input';
+import { Button } from '@ui/button';
 
 export default function Form({ post, onSubmit, submitText }: any) {
   const form = useForm({
-    title: post.title || "",
-    description: post.description || "",
+    title: post.title || '',
+    description: post.description || '',
   });
   const { data, setData, errors, processing } = form;
 
@@ -13,16 +15,15 @@ export default function Form({ post, onSubmit, submitText }: any) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label style={{ display: "block" }} htmlFor="title">
-          Title
-        </label>
-        <input
-          type="text"
+    <form onSubmit={handleSubmit} className="contents">
+      <div className="my-5">
+        <label htmlFor="title">Title</label>
+        <Input
+          type="input"
           name="title"
           id="title"
           value={data.title}
+          className="block px-3 py-2 mt-2 w-full rounded-md border border-gray-400 shadow outline-none"
           onChange={(e) => setData("title", e.target.value)}
         />
         {errors.title && (
@@ -31,15 +32,14 @@ export default function Form({ post, onSubmit, submitText }: any) {
           </div>
         )}
       </div>
-      <div>
-        <label style={{ display: "block" }} htmlFor="description">
-          Description
-        </label>
-        <input
-          type="text"
+      <div className="my-5">
+        <label htmlFor="description">Description</label>
+        <Input
+          type="input"
           name="description"
           id="description"
           value={data.description}
+          className="block px-3 py-2 mt-2 w-full rounded-md border border-gray-400 shadow outline-none"
           onChange={(e) => setData("description", e.target.value)}
         />
         {errors.description && (
@@ -48,10 +48,10 @@ export default function Form({ post, onSubmit, submitText }: any) {
           </div>
         )}
       </div>
-      <div>
-        <button type="submit" disabled={processing}>
+      <div className="inline">
+        <Button type="submit" disabled={processing}>
           {submitText}
-        </button>
+        </Button>
       </div>
     </form>
   );

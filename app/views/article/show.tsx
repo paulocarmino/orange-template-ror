@@ -1,5 +1,5 @@
 import { Link, Head } from "@inertiajs/react";
-import <%= inertia_component_name %> from "./<%= inertia_component_name %>";
+import Article from "./Article";
 import { Button } from "@ui/button";
 import {
   Breadcrumb,
@@ -11,16 +11,16 @@ import {
 } from "@ui/breadcrumb";
 import * as routes from "@src/routes";
 
-export default function Show({ <%= singular_table_name %> }: any) {
+export default function Show({ article }: any) {
   const onDestroy = (e: any) => {
-    if (!confirm("Are you sure you want to delete this <%= human_name.downcase %>?")) {
+    if (!confirm("Are you sure you want to delete this article?")) {
       e.preventDefault();
     }
   };
 
   return (
     <>
-      <Head title={`<%= human_name %> #${<%= singular_table_name %>.id}`} />
+      <Head title={`Article #${article.id}`} />
 
       <header className="flex gap-2 items-center pt-8 shrink-0">
         <div className="flex gap-2 items-center">
@@ -28,12 +28,12 @@ export default function Show({ <%= singular_table_name %> }: any) {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href={routes.<%= plural_table_name %>()}><%= human_name.pluralize %></Link>
+                  <Link href={routes.articles()}>Articles</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{`<%= human_name %> ${<%= singular_table_name %>.id}`}</BreadcrumbPage>
+                <BreadcrumbPage>{`Article ${article.id}`}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -43,24 +43,24 @@ export default function Show({ <%= singular_table_name %> }: any) {
       <div className="mt-2 w-2/3">
         <div className="mx-auto">
           <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-bold">{`<%= human_name %> ${<%= singular_table_name %>.id}`}</h1>
+            <h1 className="text-4xl font-bold">{`Article ${article.id}`}</h1>
             <div className="flex gap-2">
               <Button asChild variant="default">
-                <Link href={routes.edit_<%= singular_table_name %>(<%= singular_table_name %>.id)}>Edit</Link>
+                <Link href={routes.edit_article(article.id)}>Edit</Link>
               </Button>
               <Button asChild variant="secondary">
                 <Link
-                  href={routes.<%= singular_table_name %>(<%= singular_table_name %>.id)}
+                  href={routes.article(article.id)}
                   method="delete"
                   onClick={onDestroy}
                   as="button"
                 >
-                  Destroy this <%= human_name.downcase %>
+                  Destroy this article
                 </Link>
               </Button>
             </div>
           </div>
-          <<%= inertia_component_name %> <%= singular_table_name %>={<%= singular_table_name %>} />
+          <Article article={article} />
         </div>
       </div>
     </>

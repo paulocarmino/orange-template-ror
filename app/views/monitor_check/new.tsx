@@ -10,10 +10,10 @@ import {
 } from "@ui/breadcrumb";
 import * as routes from "@src/routes";
 
-export default function New({ <%= singular_table_name %> }: any) {
+export default function New({ monitor_check }: any) {
   return (
     <>
-      <Head title={`New <%= human_name.downcase %>`} />
+      <Head title={`New monitor check`} />
 
       <header className="flex gap-2 items-center pt-8 shrink-0">
         <div className="flex gap-2 items-center">
@@ -21,12 +21,12 @@ export default function New({ <%= singular_table_name %> }: any) {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href={routes.<%= plural_table_name %>()}><%= human_name.pluralize %></Link>
+                  <Link href={routes.monitor_checks()}>Monitor checks</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>New <%= human_name.downcase %></BreadcrumbPage>
+                <BreadcrumbPage>New monitor check</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -34,15 +34,15 @@ export default function New({ <%= singular_table_name %> }: any) {
       </header>
 
       <div className="mt-2 w-2/3">
-        <h1 className="text-4xl font-bold">New <%= human_name.downcase %></h1>
+        <h1 className="text-4xl font-bold">New monitor check</h1>
 
         <Form
-          <%= singular_table_name %>={<%= singular_table_name %>}
+          monitor_check={monitor_check}
           onSubmit={(form: any) => {
-            form.transform((data: any) => ({ <%= singular_table_name %>: data }));
-            form.post(routes.<%= plural_table_name %>());
+            form.transform((data: any) => ({ monitor_check: data }));
+            form.post(routes.monitor_checks());
           }}
-          submitText={`Create <%= human_name.downcase %>`}
+          submitText={`Create monitor check`}
         />
       </div>
     </>

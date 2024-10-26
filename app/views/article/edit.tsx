@@ -11,10 +11,10 @@ import {
 import * as routes from "@src/routes"; 
 import { Button } from "@ui/button"; 
 
-export default function Edit({ <%= singular_table_name %> }: any) {
+export default function Edit({ article }: any) {
   return (
     <>
-      <Head title={`Editing <%= human_name.downcase %>`} />
+      <Head title={`Editing article`} />
 
       <header className="flex gap-2 items-center pt-8 shrink-0">
         <div className="flex gap-2 items-center">
@@ -22,12 +22,12 @@ export default function Edit({ <%= singular_table_name %> }: any) {
             <BreadcrumbList>
               <BreadcrumbItem>
                 <BreadcrumbLink asChild>
-                  <Link href={routes.<%= plural_table_name %>()}><%= human_name.pluralize %></Link>
+                  <Link href={routes.articles()}>Articles</Link>
                 </BreadcrumbLink>
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>{<%= singular_table_name %>.name}</BreadcrumbPage>
+                <BreadcrumbPage>{article.name}</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
@@ -36,28 +36,22 @@ export default function Edit({ <%= singular_table_name %> }: any) {
 
       <div className="mt-2 w-2/3">
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold">Editing <%= human_name.downcase %></h1>
+          <h1 className="text-4xl font-bold">Editing article</h1>
 
           <Button variant="outline" className="ml-3" asChild>
-            <Link href={routes.<%= singular_table_name %>(<%= singular_table_name %>.id)}>
-              Show this <%= human_name.downcase %>
+            <Link href={routes.article(article.id)}>
+              Show this article
             </Link>
           </Button>
         </div>
 
         <Form
-          <%= singular_table_name %>={<%= singular_table_name %>}
+          article={article}
           onSubmit={(form: any) => {
-            form.transform((data: any) => ({ <%= singular_table_name %>: data }));
-<% if attributes.any?(&:attachments?) -%>
-            form.post(routes.<%= singular_table_name %>(<%= singular_table_name %>.id), {
-              headers: { 'X-HTTP-METHOD-OVERRIDE': 'put' }
-            });
-<% else -%>
-            form.patch(routes.<%= singular_table_name %>(<%= singular_table_name %>.id));
-<% end -%>
+            form.transform((data: any) => ({ article: data }));
+            form.patch(routes.article(article.id));
           }}
-          submitText={`Update <%= human_name.downcase %>`}
+          submitText={`Update article`}
         />
       </div>
     </>

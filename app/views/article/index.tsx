@@ -42,16 +42,52 @@ export const columns: ColumnDef<any>[] = [
       <DataTableColumnHeader column={column} title="Title" />
     ),
     cell: ({ row }) => {
-      return row.original.title.toString();
+      return row.original.title?.toString();
     },
   },
   {
-    accessorKey: "description",
+    accessorKey: "body",
     header: ({ column }) => (
-      <DataTableColumnHeader column={column} title="Description" />
+      <DataTableColumnHeader column={column} title="Body" />
     ),
     cell: ({ row }) => {
-      return row.original.description.toString();
+      return row.original.body?.toString();
+    },
+  },
+  {
+    accessorKey: "author",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Author" />
+    ),
+    cell: ({ row }) => {
+      return row.original.author?.toString();
+    },
+  },
+  {
+    accessorKey: "published_at",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Published at" />
+    ),
+    cell: ({ row }) => {
+      return row.original.published_at?.toString();
+    },
+  },
+  {
+    accessorKey: "status",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Status" />
+    ),
+    cell: ({ row }) => {
+      return row.original.status?.toString();
+    },
+  },
+  {
+    accessorKey: "featured",
+    header: ({ column }) => (
+      <DataTableColumnHeader column={column} title="Featured" />
+    ),
+    cell: ({ row }) => {
+      return row.original.featured?.toString();
     },
   },
   {
@@ -59,12 +95,12 @@ export const columns: ColumnDef<any>[] = [
     cell: ({ row }) => {
       return (
         <div className="flex gap-2">
-          <Link href={routes.post(row.original.id)}>
+          <Link href={routes.article(row.original.id)}>
             <Button variant={"outline"} size="sm">
               View
             </Button>
           </Link>
-          <Link href={routes.edit_post(row.original.id)}>
+          <Link href={routes.edit_article(row.original.id)}>
             <Button variant={"outline"} size="sm">
               Edit
             </Button>
@@ -152,7 +188,7 @@ const DataTable = ({ data, columns }: any) => {
   );
 };
 
-export default function Index({ posts }: any) {
+export default function Index({ articles }: any) {
   return (
     <>
       <header className="flex gap-2 items-center pt-8 shrink-0">
@@ -166,24 +202,24 @@ export default function Index({ posts }: any) {
               </BreadcrumbItem>
               <BreadcrumbSeparator />
               <BreadcrumbItem>
-                <BreadcrumbPage>Posts</BreadcrumbPage>
+                <BreadcrumbPage>Articles</BreadcrumbPage>
               </BreadcrumbItem>
             </BreadcrumbList>
           </Breadcrumb>
         </div>
       </header>
 
-      <Head title="Posts" />
+      <Head title="Articles" />
       <div className="mx-auto mt-2 w-full">
         <div className="flex justify-between items-center">
-          <h1 className="text-4xl font-bold">Posts</h1>
+          <h1 className="text-4xl font-bold">Articles</h1>
           <Button asChild>
-            <Link href={routes.new_post()}>New post</Link>
+            <Link href={routes.new_article()}>New article</Link>
           </Button>
         </div>
 
         <div className="mt-4 min-w-full">
-          <DataTable columns={columns} data={posts} />
+          <DataTable columns={columns} data={articles} />
         </div>
       </div>
     </>

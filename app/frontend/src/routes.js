@@ -535,6 +535,23 @@ export const serialize = __jsr.serialize;
 
 /**
  * Generates rails route to
+ * /articles/:id(.:format)
+ * @param {any} id
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const article = /*#__PURE__*/ __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"articles"],[2,[7,"/"],[2,[3,"id"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /articles(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const articles = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"articles"],[1,[2,[8,"."],[3,"format"]]]]]);
+
+/**
+ * Generates rails route to
  * /comments/:id(.:format)
  * @param {any} id
  * @param {object | undefined} options
@@ -552,12 +569,30 @@ export const comments = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"c
 
 /**
  * Generates rails route to
+ * /articles/:id/edit(.:format)
+ * @param {any} id
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const edit_article = /*#__PURE__*/ __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"articles"],[2,[7,"/"],[2,[3,"id"],[2,[7,"/"],[2,[6,"edit"],[1,[2,[8,"."],[3,"format"]]]]]]]]]);
+
+/**
+ * Generates rails route to
  * /comments/:id/edit(.:format)
  * @param {any} id
  * @param {object | undefined} options
  * @returns {string} route path
  */
 export const edit_comment = /*#__PURE__*/ __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"comments"],[2,[7,"/"],[2,[3,"id"],[2,[7,"/"],[2,[6,"edit"],[1,[2,[8,"."],[3,"format"]]]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /monitor_checks/:id/edit(.:format)
+ * @param {any} id
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const edit_monitor_check = /*#__PURE__*/ __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"monitor_checks"],[2,[7,"/"],[2,[3,"id"],[2,[7,"/"],[2,[6,"edit"],[1,[2,[8,"."],[3,"format"]]]]]]]]]);
 
 /**
  * Generates rails route to
@@ -578,11 +613,44 @@ export const inertia_example = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[
 
 /**
  * Generates rails route to
+ * /monitor_checks/:id(.:format)
+ * @param {any} id
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const monitor_check = /*#__PURE__*/ __jsr.r({"id":{"r":true},"format":{}}, [2,[7,"/"],[2,[6,"monitor_checks"],[2,[7,"/"],[2,[3,"id"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /monitor_checks(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const monitor_checks = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"monitor_checks"],[1,[2,[8,"."],[3,"format"]]]]]);
+
+/**
+ * Generates rails route to
+ * /articles/new(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const new_article = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"articles"],[2,[7,"/"],[2,[6,"new"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
  * /comments/new(.:format)
  * @param {object | undefined} options
  * @returns {string} route path
  */
 export const new_comment = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"comments"],[2,[7,"/"],[2,[6,"new"],[1,[2,[8,"."],[3,"format"]]]]]]]);
+
+/**
+ * Generates rails route to
+ * /monitor_checks/new(.:format)
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const new_monitor_check = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"monitor_checks"],[2,[7,"/"],[2,[6,"new"],[1,[2,[8,"."],[3,"format"]]]]]]]);
 
 /**
  * Generates rails route to
@@ -624,4 +692,12 @@ export const pwa_manifest = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[
  * @returns {string} route path
  */
 export const pwa_service_worker = /*#__PURE__*/ __jsr.r({"format":{}}, [2,[7,"/"],[2,[6,"service-worker"],[1,[2,[8,"."],[3,"format"]]]]]);
+
+/**
+ * Generates rails route to
+ * /
+ * @param {object | undefined} options
+ * @returns {string} route path
+ */
+export const root = /*#__PURE__*/ __jsr.r({}, [7,"/"]);
 
