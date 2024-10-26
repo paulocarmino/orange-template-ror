@@ -1,2 +1,0 @@
-class MonitorCheck < ApplicationRecord
-end

@@ -1,4 +1,6 @@
 import { useForm } from '@inertiajs/react';
+import { Input } from "@ui/input";
+import { Textarea } from "@ui/textarea";
 
 export default function Form({ article, onSubmit, submitText }: any) {
   const form = useForm({
@@ -20,7 +22,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
     <form onSubmit={handleSubmit} className="contents">
       <div className="my-5">
         <label htmlFor="title">Title</label>
-        <input
+        <Input
           type="text"
           name="title"
           id="title"
@@ -30,7 +32,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.title && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.title.join(', ')}
+            {errors.Array(title).join(', ')}
           </div>
         )}
       </div>
@@ -46,13 +48,13 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.body && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.body.join(', ')}
+            {errors.Array(body).join(', ')}
           </div>
         )}
       </div>
       <div className="my-5">
         <label htmlFor="author">Author</label>
-        <input
+        <Input
           type="text"
           name="author"
           id="author"
@@ -62,13 +64,13 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.author && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.author.join(', ')}
+            {errors.Array(author).join(', ')}
           </div>
         )}
       </div>
       <div className="my-5">
         <label htmlFor="published_at">Published at</label>
-        <input
+        <Input
           type="datetime-local"
           name="published_at"
           id="published_at"
@@ -78,13 +80,13 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.published_at && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.published_at.join(', ')}
+            {errors.Array(published_at).join(', ')}
           </div>
         )}
       </div>
       <div className="my-5">
         <label htmlFor="status">Status</label>
-        <input
+        <Input
           type="text"
           name="status"
           id="status"
@@ -94,13 +96,13 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.status && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.status.join(', ')}
+            {errors.Array(status).join(', ')}
           </div>
         )}
       </div>
       <div className="my-5">
         <label htmlFor="featured">Featured</label>
-        <input
+        <Input
           type="checkbox"
           name="featured"
           id="featured"
@@ -110,7 +112,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         />
         {errors.featured && (
           <div className="text-red-500 px-3 py-2 font-medium">
-            {errors.featured.join(', ')}
+            {errors.Array(featured).join(', ')}
           </div>
         )}
       </div>

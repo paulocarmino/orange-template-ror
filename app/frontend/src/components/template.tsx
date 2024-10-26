@@ -4,11 +4,11 @@ import {
   ChevronsUpDown,
   Citrus,
   CreditCard,
+  Database,
   LifeBuoy,
   LogOut,
   Send,
   Sparkles,
-  SquareTerminal,
 } from "lucide-react";
 
 import { Avatar, AvatarFallback, AvatarImage } from "@src/components/ui/avatar";
@@ -49,40 +49,43 @@ import { ModeToggle } from "./mode-toggle";
 import { useTheme } from "../providers/theme-provider";
 
 import * as routes from "@src/routes";
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import ToastListener from "./toast-listener";
-
-const data = {
-  user: {
-    name: "Paulo Carmino",
-    email: "paulocarmino@gmail.com",
-    avatar: "https://ui.shadcn.com/avatars/shadcn.jpg",
-  },
-  navMain: [
-    {
-      title: "",
-      url: routes.inertia_example(),
-      icon: SquareTerminal,
-      isActive: true,
-      items: [],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Feedback",
-      url: "#",
-      icon: Send,
-    },
-    {
-      title: "Support",
-      url: "#",
-      icon: LifeBuoy,
-    },
-  ],
-};
 
 export default function TemplateDefault({ children }: any) {
   const { theme } = useTheme();
+  const { props } = usePage();
+  const models: any = props.models || [];
+
+  const data = {
+    user: {
+      name: "Paulo Carmino",
+      email: "paulocarmino@gmail.com",
+      avatar: "https://ui.shadcn.com/avatars/shadcn.jpg",
+    },
+    navMain: models.map((model: any) => ({
+      title: model,
+      url: `/${model
+        .replace(/([A-Z])/g, "-$1")
+        .toLowerCase()
+        .replace(/^-/, "")}`,
+      icon: Database,
+      isActive: false,
+      items: [],
+    })),
+    navSecondary: [
+      {
+        title: "Feedback",
+        url: "#",
+        icon: Send,
+      },
+      {
+        title: "Support",
+        url: "#",
+        icon: LifeBuoy,
+      },
+    ],
+  };
 
   return (
     <SidebarProvider>
@@ -100,7 +103,7 @@ export default function TemplateDefault({ children }: any) {
           <SidebarMenu>
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild noHover>
-                <Link href={routes.inertia_example()}>
+                <Link href={routes.root()}>
                   <div className="flex justify-center items-center rounded-lg aspect-square size-8 bg-primary text-primary-foreground">
                     <Citrus className="size-4" />
                   </div>
@@ -124,7 +127,7 @@ export default function TemplateDefault({ children }: any) {
           <SidebarGroup>
             <SidebarGroupLabel>Platform</SidebarGroupLabel>
             <SidebarMenu>
-              {data.navMain.map((item) => (
+              {data.navMain.map((item: any) => (
                 <Collapsible
                   key={item.title}
                   asChild
