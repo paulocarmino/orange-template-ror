@@ -7,5 +7,22 @@
     {
       "path": "./tsconfig.node.json"
     }
-  ]
+  ],
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "./app/*"
+      ],
+      "@src/*": [
+        "./app/frontend/src/*"
+      ],
+      "@ui/*": [
+        "./app/frontend/src/components/ui/*"
+      ],
+      "@components/*": [
+        "./app/frontend/src/components/*"
+      ],
+    }
+  }
 }

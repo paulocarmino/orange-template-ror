@@ -1,36 +1,36 @@
-import { createInertiaApp } from '@inertiajs/react'
-import { createElement, ReactNode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { createInertiaApp } from "@inertiajs/react";
+import { createElement, ReactNode } from "react";
+import { createRoot } from "react-dom/client";
+import TemplateDefault from "@components/template";
+import { ThemeProvider } from "../src/providers/theme-provider";
+import { CableProvider } from "../src/providers/cable-provider";
 
-type ResolvedComponent = { default: ReactNode, layout?: (page: ReactNode) => ReactNode }
+type Component = {
+  default: ReactNode & { layout?: (page: ReactNode) => ReactNode };
+};
 
 createInertiaApp({
-  // Set default page title
-  // see https://inertia-rails.netlify.app/guide/title-and-meta
-  //
-  // title: title => title ? `${title} - App` : 'App',
-
-  // Disable progress bar
-  //
-  // see https://inertia-rails.netlify.app/guide/progress-indicators
-  // progress: false,
-
+  progress: {
+    color: "#e97c2a",
+  },
   resolve: (name) => {
-    const pages = import.meta.glob<ResolvedComponent>('../pages/**/*.tsx', { eager: true })
-    return pages[`../pages/${name}.tsx`]
+    const pages = import.meta.glob("../../views/**/*.tsx", { eager: true });
 
-    // To use a default layout, import the Layout component
-    // and use the following lines.
-    // see https://inertia-rails.netlify.app/guide/pages#default-layouts
-    //
-    // const page = pages[`../pages/${name}.tsx`]
-    // page.default.layout ||= (page) => createElement(Layout, null, page)
-    // return page
+    const page = pages[`../../views/${name}.tsx`] as Component;
+    page.default.layout ||= (page) =>
+      createElement(TemplateDefault, null, page);
+    return page;
   },
 
   setup({ el, App, props }) {
-    const root = createRoot(el)
+    const root = createRoot(el);
 
-    root.render(createElement(App, props))
+    root.render(
+      createElement(CableProvider, {
+        children: createElement(ThemeProvider, {
+          children: createElement(App, props),
+        }),
+      })
+    );
   },
-})
+});
