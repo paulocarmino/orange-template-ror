@@ -30,5 +30,5 @@ gem "thruster", require: false
 gem "devise", "~> 4.9"
 gem "inertia_rails-contrib", "~> 0.3.0"
 gem "vite_rails", "~> 3.0"
-gem "js-routes", "~> 2.2"
+gem "js-routes", "~> 2.3"
 gem "rack-cors"
