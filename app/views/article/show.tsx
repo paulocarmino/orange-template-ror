@@ -1,5 +1,5 @@
 import { Link, Head } from "@inertiajs/react";
-import Article from "./Article";
+import Article from "./article";
 import { Button } from "@ui/button";
 import {
   Breadcrumb,
@@ -22,8 +22,8 @@ export default function Show({ article }: any) {
     <>
       <Head title={`Article #${article.id}`} />
 
-      <header className="flex gap-2 items-center pt-8 shrink-0">
-        <div className="flex gap-2 items-center">
+      <header className="flex items-center gap-2 pt-8 shrink-0">
+        <div className="flex items-center gap-2">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -40,9 +40,9 @@ export default function Show({ article }: any) {
         </div>
       </header>
 
-      <div className="mt-2 w-2/3">
+      <div className="w-2/3 mt-2">
         <div className="mx-auto">
-          <div className="flex justify-between items-center">
+          <div className="flex items-center justify-between">
             <h1 className="text-4xl font-bold">{`Article ${article.id}`}</h1>
             <div className="flex gap-2">
               <Button asChild variant="default">

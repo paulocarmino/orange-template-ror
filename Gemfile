@@ -16,7 +16,7 @@ group :development do
   gem "web-console"
 end
 
-gem "rails", ">= 8.0.0.rc1"
+gem "rails", ">= 8.0.2"
 gem "propshaft", "~> 1.1"
 gem "sqlite3", "~> 2.1"
 gem "puma", ">= 5.0"
@@ -28,7 +28,7 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem "devise", "~> 4.9"
-gem "inertia_rails-contrib", "~> 0.3.0"
+gem "inertia_rails", "3.8.0"
 gem "vite_rails", "~> 3.0"
 gem "js-routes", "~> 2.2"
 gem "rack-cors"

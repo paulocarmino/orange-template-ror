@@ -26,5 +26,5 @@ export default function Article({ article }: any) {
         {article.featured?.toString()}
       </p>
     </div>
-  )
+  );
 }

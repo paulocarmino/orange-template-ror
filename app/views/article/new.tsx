@@ -1,5 +1,5 @@
-import { Link, Head } from '@inertiajs/react';
-import Form from './Form';
+import { Link, Head } from "@inertiajs/react";
+import Form from "./form";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -15,8 +15,8 @@ export default function New({ article }: any) {
     <>
       <Head title={`New article`} />
 
-      <header className="flex gap-2 items-center pt-8 shrink-0">
-        <div className="flex gap-2 items-center">
+      <header className="flex items-center gap-2 pt-8 shrink-0">
+        <div className="flex items-center gap-2">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem>
@@ -33,7 +33,7 @@ export default function New({ article }: any) {
         </div>
       </header>
 
-      <div className="mt-2 w-2/3">
+      <div className="w-2/3 mt-2">
         <h1 className="text-4xl font-bold">New article</h1>
 
         <Form

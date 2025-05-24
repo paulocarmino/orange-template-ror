@@ -1,4 +1,4 @@
-module InertiaRailsContrib
+module InertiaRails
   module GeneratorsHelper
     def self.guess_the_default_framework
       package = Rails.root.join("package.json").read

@@ -67,9 +67,9 @@ export default function ProtectedTemplate({ children }: any) {
     navMain: models.map((model: any) => ({
       title: model,
       url: `/${model
-        .replace(/([A-Z])/g, "-$1")
+        .replace(/([A-Z])/g, "_$1")
         .toLowerCase()
-        .replace(/^-/, "")}`,
+        .replace(/^_/, "")}`,
       icon: Database,
       isActive: false,
       items: [],
@@ -105,7 +105,7 @@ export default function ProtectedTemplate({ children }: any) {
             <SidebarMenuItem>
               <SidebarMenuButton size="lg" asChild noHover>
                 <Link href={routes.root()}>
-                  <div className="flex justify-center items-center rounded-lg aspect-square size-8 bg-primary text-primary-foreground">
+                  <div className="flex items-center justify-center rounded-lg aspect-square size-8 bg-primary text-primary-foreground">
                     <Citrus className="size-4" />
                   </div>
                   <div className="grid flex-1 text-sm leading-tight text-left">

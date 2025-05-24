@@ -132,21 +132,21 @@ const DataTable = ({ data, columns }: any) => {
 
   return (
     <div>
-      <div className="flex justify-between items-center">
-      <div className="flex items-center py-4 w-full">
-        <Input
-          placeholder={`Filter by title...`}
-          value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("title")?.setFilterValue(event.target.value)
-          }
-          className="max-w-xs"
-        />
-      </div>
-      <DataTableViewOptions table={table} />
+      <div className="flex items-center justify-between">
+        <div className="flex items-center w-full py-4">
+          <Input
+            placeholder={`Filter by title...`}
+            value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("title")?.setFilterValue(event.target.value)
+            }
+            className="max-w-xs"
+          />
+        </div>
+        <DataTableViewOptions table={table} />
       </div>
 
-      <div className="mb-4 rounded-md border">
+      <div className="mb-4 border rounded-md">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
@@ -155,7 +155,10 @@ const DataTable = ({ data, columns }: any) => {
                   <TableHead key={header.id}>
                     {header.isPlaceholder
                       ? null
-                      : flexRender(header.column.columnDef.header, header.getContext())}
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                   </TableHead>
                 ))}
               </TableRow>
@@ -164,17 +167,26 @@ const DataTable = ({ data, columns }: any) => {
           <TableBody>
             {table.getRowModel().rows.length ? (
               table.getRowModel().rows.map((row) => (
-                <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+                <TableRow
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
+                >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext()
+                      )}
                     </TableCell>
                   ))}
                 </TableRow>
               ))
             ) : (
               <TableRow>
-                <TableCell colSpan={columns.length} className="h-24 text-center">
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
                   No results.
                 </TableCell>
               </TableRow>
@@ -191,8 +203,8 @@ const DataTable = ({ data, columns }: any) => {
 export default function Index({ articles }: any) {
   return (
     <>
-      <header className="flex gap-2 items-center pt-8 shrink-0">
-        <div className="flex gap-2 items-center">
+      <header className="flex items-center gap-2 pt-8 shrink-0">
+        <div className="flex items-center gap-2">
           <Breadcrumb>
             <BreadcrumbList>
               <BreadcrumbItem className="hidden md:block">
@@ -210,19 +222,18 @@ export default function Index({ articles }: any) {
       </header>
 
       <Head title="Articles" />
-      <div className="mx-auto mt-2 w-full">
-        <div className="flex justify-between items-center">
+      <div className="w-full mx-auto mt-2">
+        <div className="flex items-center justify-between">
           <h1 className="text-4xl font-bold">Articles</h1>
           <Button asChild>
             <Link href={routes.new_article()}>New article</Link>
           </Button>
         </div>
 
-        <div className="mt-4 min-w-full">
+        <div className="min-w-full mt-4">
           <DataTable columns={columns} data={articles} />
         </div>
       </div>
     </>
   );
 }
-

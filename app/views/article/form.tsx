@@ -1,14 +1,14 @@
-import { useForm } from '@inertiajs/react';
+import { useForm } from "@inertiajs/react";
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
 
 export default function Form({ article, onSubmit, submitText }: any) {
   const form = useForm({
-    title: article.title || '',
-    body: article.body || '',
-    author: article.author || '',
-    published_at: article.published_at || '',
-    status: article.status || '',
+    title: article.title || "",
+    body: article.body || "",
+    author: article.author || "",
+    published_at: article.published_at || "",
+    status: article.status || "",
     featured: article.featured || false,
   });
   const { data, setData, errors, processing } = form;
@@ -27,12 +27,12 @@ export default function Form({ article, onSubmit, submitText }: any) {
           name="title"
           id="title"
           value={data.title}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
-          onChange={(e) => setData('title', e.target.value)}
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
+          onChange={(e) => setData("title", e.target.value)}
         />
         {errors.title && (
-          <div className="text-red-500 px-3 py-2 font-medium">
-            {Array(errors.title).join(', ')}
+          <div className="px-3 py-2 font-medium text-red-500">
+            {Array(errors.title).join(", ")}
           </div>
         )}
       </div>
@@ -43,12 +43,12 @@ export default function Form({ article, onSubmit, submitText }: any) {
           id="body"
           value={data.body}
           rows={4}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
-          onChange={(e) => setData('body', e.target.value)}
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
+          onChange={(e) => setData("body", e.target.value)}
         />
         {errors.body && (
-          <div className="text-red-500 px-3 py-2 font-medium">
-            {Array(errors.body).join(', ')}
+          <div className="px-3 py-2 font-medium text-red-500">
+            {Array(errors.body).join(", ")}
           </div>
         )}
       </div>
@@ -59,12 +59,12 @@ export default function Form({ article, onSubmit, submitText }: any) {
           name="author"
           id="author"
           value={data.author}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
-          onChange={(e) => setData('author', e.target.value)}
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
+          onChange={(e) => setData("author", e.target.value)}
         />
         {errors.author && (
-          <div className="text-red-500 px-3 py-2 font-medium">
-            {Array(errors.author).join(', ')}
+          <div className="px-3 py-2 font-medium text-red-500">
+            {Array(errors.author).join(", ")}
           </div>
         )}
       </div>
@@ -75,12 +75,12 @@ export default function Form({ article, onSubmit, submitText }: any) {
           name="published_at"
           id="published_at"
           value={data.published_at}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
-          onChange={(e) => setData('published_at', e.target.value)}
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
+          onChange={(e) => setData("published_at", e.target.value)}
         />
         {errors.published_at && (
-          <div className="text-red-500 px-3 py-2 font-medium">
-            {Array(errors.published_at).join(', ')}
+          <div className="px-3 py-2 font-medium text-red-500">
+            {Array(errors.published_at).join(", ")}
           </div>
         )}
       </div>
@@ -91,12 +91,12 @@ export default function Form({ article, onSubmit, submitText }: any) {
           name="status"
           id="status"
           value={data.status}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
-          onChange={(e) => setData('status', e.target.value)}
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
+          onChange={(e) => setData("status", e.target.value)}
         />
         {errors.status && (
-          <div className="text-red-500 px-3 py-2 font-medium">
-            {Array(errors.status).join(', ')}
+          <div className="px-3 py-2 font-medium text-red-500">
+            {Array(errors.status).join(", ")}
           </div>
         )}
       </div>
@@ -107,12 +107,12 @@ export default function Form({ article, onSubmit, submitText }: any) {
           name="featured"
           id="featured"
           checked={!!data.featured}
-          className="block mt-2 h-5 w-5"
-          onChange={(e) => setData('featured', e.target.checked)}
+          className="block w-5 h-5 mt-2"
+          onChange={(e) => setData("featured", e.target.checked)}
         />
         {errors.featured && (
-          <div className="text-red-500 px-3 py-2 font-medium">
-            {Array(errors.featured).join(', ')}
+          <div className="px-3 py-2 font-medium text-red-500">
+            {Array(errors.featured).join(", ")}
           </div>
         )}
       </div>
@@ -120,7 +120,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
         <button
           type="submit"
           disabled={processing}
-          className="rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
+          className="inline-block px-5 py-3 font-medium text-white bg-blue-600 rounded-lg cursor-pointer"
         >
           {submitText}
         </button>

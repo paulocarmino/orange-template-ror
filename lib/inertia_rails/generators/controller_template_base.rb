@@ -1,9 +1,9 @@
 # frozen_string_literal: true
 
 require "rails/generators/named_base"
-require "inertia_rails_contrib/generators_helper"
+require "inertia_rails/generators_helper"
 
-module InertiaRailsContrib
+module InertiaRails
   module Generators
     class ControllerTemplateBase < Rails::Generators::NamedBase
       include GeneratorsHelper

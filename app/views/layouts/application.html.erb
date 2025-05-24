@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html >
   <head>
-    <title inertia><%= content_for(:title) || "Rails Inertia Ts" %></title>
+    <title inertia><%= content_for(:title) || "Orange Template | Loading..." %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
@@ -16,7 +16,7 @@
     <%= vite_react_refresh_tag %>
     <%= vite_client_tag %>
     <%= vite_typescript_tag "inertia" %>
-    <%= inertia_headers %>
+    <%= inertia_ssr_head %>
   </head>
 
   <body>

@@ -3,7 +3,7 @@
 require "rails/generators/resource_helpers"
 require_relative "controller_template_base"
 
-module InertiaRailsContrib
+module InertiaRails
   module Generators
     class ScaffoldTemplateBase < ControllerTemplateBase
       include Rails::Generators::ResourceHelpers
