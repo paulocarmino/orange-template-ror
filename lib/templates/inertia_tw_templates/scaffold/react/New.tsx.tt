@@ -1,5 +1,5 @@
 import { Link, Head } from '@inertiajs/react';
-import Form from './Form';
+import Form from './form';
 import {
   Breadcrumb,
   BreadcrumbItem,
