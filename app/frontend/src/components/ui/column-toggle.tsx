@@ -12,6 +12,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
 } from "@src/components/ui/dropdown-menu";
+import { ChevronDownIcon, ColumnsIcon } from "lucide-react";
 
 interface DataTableViewOptionsProps<TData> {
   table: Table<TData>;
@@ -23,18 +24,14 @@ export function DataTableViewOptions<TData>({
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
-        <Button
-          variant="outline"
-          size="sm"
-          className="hidden ml-auto h-8 lg:flex"
-        >
-          <MixerHorizontalIcon className="mr-2 w-4 h-4" />
-          View
+        <Button variant="outline" size="sm">
+          <ColumnsIcon />
+          <span className="hidden lg:inline">Customize Columns</span>
+          <span className="lg:hidden">Columns</span>
+          <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
-      <DropdownMenuContent align="end" className="w-[150px]">
-        <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+      <DropdownMenuContent align="end" className="w-56">
         {table
           .getAllColumns()
           .filter(

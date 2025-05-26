@@ -1,15 +1,9 @@
 import { Link, Head } from "@inertiajs/react";
 import <%= inertia_component_name %> from "./<%= inertia_component_name %>";
 import { Button } from "@ui/button";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@ui/breadcrumb";
+
 import * as routes from "@src/routes";
+import { SiteHeader } from "@/frontend/src/components/common/site-header";
 
 export default function Show({ <%= singular_table_name %> }: any) {
   const onDestroy = (e: any) => {
@@ -20,30 +14,14 @@ export default function Show({ <%= singular_table_name %> }: any) {
 
   return (
     <>
-      <Head title={`<%= human_name %> #${<%= singular_table_name %>.id}`} />
+      <Head title={`<%= human_name.capitalize %> #${<%= singular_table_name %>.id}`} />
+      <SiteHeader title={`<%= human_name.capitalize %> #${<%= singular_table_name %>.id}`} />
 
-      <header className="flex gap-2 items-center pt-8 shrink-0">
-        <div className="flex gap-2 items-center">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={routes.<%= plural_table_name %>()}><%= human_name.pluralize %></Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>{`<%= human_name %> ${<%= singular_table_name %>.id}`}</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </header>
+      <div className="w-full px-4 lg:px-6">
+        <div className="w-2/3 mt-2">
+          <div className="flex items-center justify-between">
+            <h1 className="text-4xl font-bold">{`<%= human_name.capitalize %> ${<%= singular_table_name %>.id}`}</h1>
 
-      <div className="mt-2 w-2/3">
-        <div className="mx-auto">
-          <div className="flex justify-between items-center">
-            <h1 className="text-4xl font-bold">{`<%= human_name %> ${<%= singular_table_name %>.id}`}</h1>
             <div className="flex gap-2">
               <Button asChild variant="default">
                 <Link href={routes.edit_<%= singular_table_name %>(<%= singular_table_name %>.id)}>Edit</Link>
@@ -60,6 +38,7 @@ export default function Show({ <%= singular_table_name %> }: any) {
               </Button>
             </div>
           </div>
+
           <<%= inertia_component_name %> <%= singular_table_name %>={<%= singular_table_name %>} />
         </div>
       </div>

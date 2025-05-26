@@ -1,41 +1,15 @@
-import { Link, Head } from "@inertiajs/react";
+import { Head } from "@inertiajs/react";
 import Form from "./form";
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@ui/breadcrumb";
 import * as routes from "@src/routes";
+import { SiteHeader } from "@/frontend/src/components/common/site-header";
 
 export default function New({ article }: any) {
   return (
     <>
-      <Head title={`New article`} />
+      <Head title="New Article" />
+      <SiteHeader title="New Article" />
 
-      <header className="flex items-center gap-2 pt-8 shrink-0">
-        <div className="flex items-center gap-2">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={routes.articles()}>Articles</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>New article</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </header>
-
-      <div className="w-2/3 mt-2">
-        <h1 className="text-4xl font-bold">New article</h1>
-
+      <div className="w-full px-4 lg:px-6">
         <Form
           article={article}
           onSubmit={(form: any) => {

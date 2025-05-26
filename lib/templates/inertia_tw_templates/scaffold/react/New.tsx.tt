@@ -1,41 +1,15 @@
-import { Link, Head } from '@inertiajs/react';
-import Form from './form';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@ui/breadcrumb";
+import { Head } from "@inertiajs/react";
+import Form from "./form";
 import * as routes from "@src/routes";
+import { SiteHeader } from "@/frontend/src/components/common/site-header";
 
 export default function New({ <%= singular_table_name %> }: any) {
   return (
     <>
-      <Head title={`New <%= human_name.downcase %>`} />
+      <Head title={`New <%= human_name.capitalize %>`} />
+      <SiteHeader title={`New <%= human_name.capitalize %>`} />
 
-      <header className="flex gap-2 items-center pt-8 shrink-0">
-        <div className="flex gap-2 items-center">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink asChild>
-                  <Link href={routes.<%= plural_table_name %>()}><%= human_name.pluralize %></Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>New <%= human_name.downcase %></BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </header>
-
-      <div className="mt-2 w-2/3">
-        <h1 className="text-4xl font-bold">New <%= human_name.downcase %></h1>
-
+      <div className="w-full px-4 lg:px-6">
         <Form
           <%= singular_table_name %>={<%= singular_table_name %>}
           onSubmit={(form: any) => {

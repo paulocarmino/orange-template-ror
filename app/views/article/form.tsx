@@ -1,3 +1,4 @@
+import { Button } from "@/frontend/src/components/ui/button";
 import { useForm } from "@inertiajs/react";
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
@@ -107,7 +108,7 @@ export default function Form({ article, onSubmit, submitText }: any) {
           name="featured"
           id="featured"
           checked={!!data.featured}
-          className="block w-5 h-5 mt-2"
+          className="block mt-2"
           onChange={(e) => setData("featured", e.target.checked)}
         />
         {errors.featured && (
@@ -116,15 +117,9 @@ export default function Form({ article, onSubmit, submitText }: any) {
           </div>
         )}
       </div>
-      <div className="inline">
-        <button
-          type="submit"
-          disabled={processing}
-          className="inline-block px-5 py-3 font-medium text-white bg-blue-600 rounded-lg cursor-pointer"
-        >
-          {submitText}
-        </button>
-      </div>
+      <Button type="submit" disabled={processing}>
+        {submitText}
+      </Button>
     </form>
   );
 }

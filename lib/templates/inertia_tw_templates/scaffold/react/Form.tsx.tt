@@ -1,6 +1,7 @@
 import { useForm } from '@inertiajs/react';
 import { Input } from "@ui/input";
 import { Textarea } from "@ui/textarea";
+import { Button } from "@/frontend/src/components/ui/button";
 
 export default function Form({ <%= singular_table_name %>, onSubmit, submitText }: any) {
   const form = useForm({
@@ -23,101 +24,96 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
   return (
     <form onSubmit={handleSubmit} className="contents">
 <% attributes.each do |attribute| -%>
+  <% if attribute.password_digest? -%>
       <div className="my-5">
-<% if attribute.password_digest? -%>
         <label htmlFor="password">Password</label>
         <Input
           type="password"
           name="password"
           id="password"
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('password', e.target.value)}
         />
         {errors.password && (
-          <div className="text-red-500 px-3 py-2 font-medium">
+          <div className="px-3 py-2 font-medium text-red-500">
             {Array(errors.password).join(', ')}
           </div>
         )}
       </div>
-
       <div className="my-5">
         <label htmlFor="password_confirmation">Password Confirmation</label>
         <Input
           type="password"
           name="password_confirmation"
           id="password_confirmation"
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('password_confirmation', e.target.value)}
         />
         {errors.password_confirmation && (
-          <div className="text-red-500 px-3 py-2 font-medium">
+          <div className="px-3 py-2 font-medium text-red-500">
             {Array(errors.password_confirmation).join(', ')}
           </div>
         )}
-<% else -%>
+      </div>
+  <% else -%>
+      <div className="my-5">
         <label htmlFor="<%= attribute.singular_name %>"><%= attribute.human_name %></label>
-<% if input_type(attribute) == "text_area" -%>
+  <% if input_type(attribute) == "text_area" -%>
         <Textarea
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
           rows={4}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
-<% elsif attribute.attachment? -%>
+  <% elsif attribute.attachment? -%>
         <Input
           type="file"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.files[0])}
         />
-<% elsif attribute.attachments? -%>
+  <% elsif attribute.attachments? -%>
         <Input
           type="file"
           multiple
           name="<%= attribute.singular_name %>[]"
           id="<%= attribute.singular_name %>"
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', Array.from(e.target.files))}
         />
-<% elsif input_type(attribute) == "checkbox" -%>
+  <% elsif input_type(attribute) == "checkbox" -%>
         <Input
-          type="<%= input_type(attribute) %>"
+          type="checkbox"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           checked={!!data.<%= attribute.column_name %>}
-          className="block mt-2 h-5 w-5"
+          className="block mt-2"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.checked)}
         />
-<% else -%>
+  <% else -%>
         <Input
           type="<%= input_type(attribute) %>"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
-          className="block shadow rounded-md border border-gray-400 outline-none px-3 py-2 mt-2 w-full"
+          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
-<% end -%>
+  <% end -%>
         {errors.<%= attribute.column_name %> && (
-          <div className="text-red-500 px-3 py-2 font-medium">
+          <div className="px-3 py-2 font-medium text-red-500">
             {Array(errors.<%= attribute.column_name %>).join(', ')}
           </div>
         )}
-<% end -%>
       </div>
+  <% end -%>
 <% end -%>
-      <div className="inline">
-        <button
-          type="submit"
-          disabled={processing}
-          className="rounded-lg py-3 px-5 bg-blue-600 text-white inline-block font-medium cursor-pointer"
-        >
-          {submitText}
-        </button>
-      </div>
+      <Button type="submit" disabled={processing}>
+        {submitText}
+      </Button>
     </form>
   );
 }

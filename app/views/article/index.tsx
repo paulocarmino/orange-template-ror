@@ -2,14 +2,6 @@ import { Link, Head } from "@inertiajs/react";
 
 import { Button } from "@src/components/ui/button";
 import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@ui/breadcrumb";
-import {
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -34,6 +26,8 @@ import { Input } from "@ui/input";
 import { DataTableColumnHeader } from "@ui/column-header";
 import { DataTablePagination } from "@ui/pagination";
 import { DataTableViewOptions } from "@ui/column-toggle";
+import { SiteHeader } from "@/frontend/src/components/common/site-header";
+import { PlusIcon } from "lucide-react";
 
 export const columns: ColumnDef<any>[] = [
   {
@@ -133,7 +127,7 @@ const DataTable = ({ data, columns }: any) => {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <div className="flex items-center w-full py-4">
+        <div className="flex items-center w-full pb-4">
           <Input
             placeholder={`Filter by title...`}
             value={(table.getColumn("title")?.getFilterValue() as string) ?? ""}
@@ -143,12 +137,21 @@ const DataTable = ({ data, columns }: any) => {
             className="max-w-xs"
           />
         </div>
-        <DataTableViewOptions table={table} />
+
+        <div className="flex justify-center gap-2">
+          <DataTableViewOptions table={table} />
+          <Button size="sm" asChild>
+            <Link href={routes.new_article()}>
+              <PlusIcon />
+              New article
+            </Link>
+          </Button>
+        </div>
       </div>
 
       <div className="mb-4 border rounded-md">
         <Table>
-          <TableHeader>
+          <TableHeader className="bg-muted">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => (
@@ -203,36 +206,11 @@ const DataTable = ({ data, columns }: any) => {
 export default function Index({ articles }: any) {
   return (
     <>
-      <header className="flex items-center gap-2 pt-8 shrink-0">
-        <div className="flex items-center gap-2">
-          <Breadcrumb>
-            <BreadcrumbList>
-              <BreadcrumbItem className="hidden md:block">
-                <BreadcrumbLink asChild>
-                  <Link href={routes.root()}>Home</Link>
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              <BreadcrumbSeparator />
-              <BreadcrumbItem>
-                <BreadcrumbPage>Articles</BreadcrumbPage>
-              </BreadcrumbItem>
-            </BreadcrumbList>
-          </Breadcrumb>
-        </div>
-      </header>
-
       <Head title="Articles" />
-      <div className="w-full mx-auto mt-2">
-        <div className="flex items-center justify-between">
-          <h1 className="text-4xl font-bold">Articles</h1>
-          <Button asChild>
-            <Link href={routes.new_article()}>New article</Link>
-          </Button>
-        </div>
+      <SiteHeader title="Articles" />
 
-        <div className="min-w-full mt-4">
-          <DataTable columns={columns} data={articles} />
-        </div>
+      <div className="w-full px-4 lg:px-6">
+        <DataTable columns={columns} data={articles} />
       </div>
     </>
   );
