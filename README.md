@@ -4,7 +4,7 @@ Welcome to my personal Ruby on Rails template, designed to significantly boost p
 
 ## Why I Built This Template
 
-I built this template to streamline my workflow using my favorite technologies. Ruby on Rails excels in backend processing, and with Inertia.js, I've seamlessly integrated React to bring in ShadcnUI, my go-to UI library. The default scaffolding wasn't cutting it, so I revamped it to work perfectly with ShadcnUI and TypeScript, allowing me to generate stunning, highly customizable CRUD interfaces with ease. Plus, each scaffold automatically updates a sleek sidebar to keep everything organized—it's a game-changer!
+I built this template to streamline my workflow using my favorite technologies. Ruby on Rails excels in backend processing, and with Inertia.js, I've seamlessly integrated React to bring in ShadcnUI, my go-to UI library. The default scaffolding wasn't cutting it, so I revamped it to work perfectly with ShadcnUI and TypeScript, allowing me to generate stunning, highly customizable CRUD interfaces with ease. Plus, each scaffold automatically updates a sleek sidebar to keep everything organized.
 
 ## Features at a Glance
 
