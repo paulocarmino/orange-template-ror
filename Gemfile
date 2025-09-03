@@ -28,7 +28,7 @@ gem "bootsnap", require: false
 gem "kamal", require: false
 gem "thruster", require: false
 gem "devise", "~> 4.9"
-gem "inertia_rails", "3.8.0"
+gem "inertia_rails", "~> 3.8"
 gem "vite_rails", "~> 3.0"
 gem "js-routes", "~> 2.2"
 gem "rack-cors"
