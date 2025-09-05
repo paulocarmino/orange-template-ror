@@ -1,5 +1,5 @@
 import { Link, Head } from "@inertiajs/react";
-import <%= inertia_component_name %> from "./<%= inertia_component_name %>";
+import <%= inertia_component_name %> from "./<%= inertia_component_name.downcase %>";
 import { Button } from "@ui/button";
 
 import * as routes from "@src/routes";
