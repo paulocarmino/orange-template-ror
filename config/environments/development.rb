@@ -1,4 +1,5 @@
 require "active_support/core_ext/integer/time"
+require_relative "../../lib/middleware/js_routes_guard"
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -72,4 +73,6 @@ Rails.application.configure do
   # Automatically update js-routes file
   # when routes.rb is changed
   config.middleware.use(JsRoutes::Middleware)
+  # Guard against corrupted js-routes generation
+  config.middleware.insert_after(JsRoutes::Middleware, JsRoutesGuard)
 end
