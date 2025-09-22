@@ -18,7 +18,7 @@ end
 
 gem "rails", ">= 8.0.2"
 gem "propshaft", "~> 1.1"
-gem "sqlite3", "~> 2.1"
+gem "sqlite3", "~> 2.7"
 gem "puma", ">= 5.0"
 gem "tzinfo-data", platforms: %i[windows jruby]
 gem "solid_cache"
