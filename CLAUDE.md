@@ -122,6 +122,38 @@ render inertia: "users/show", props: { user: @user }
 render inertia: "Users/Show", props: { user: @user }
 ```
 
+#### Error Handling Pattern
+
+Always format errors for Inertia using a helper method and preserve navigation context:
+
+```ruby
+# In your controller - add this helper method
+def format_errors_for_inertia(record)
+  record.errors.attribute_names.index_with do |attr|
+    record.errors.full_messages_for(attr)
+  end
+end
+
+# Use redirect_back_or_to to preserve the page context
+def create
+  @resource = Resource.new(resource_params)
+
+  if @resource.save
+    redirect_to resources_url, notice: "Resource was successfully created."
+  else
+    # AIDEV-NOTE: Redirect back preserves origin page (dashboard, index, etc)
+    # Modal stays open, Inertia soft-navigates with errors
+    redirect_back_or_to resources_url, inertia: { errors: format_errors_for_inertia(@resource) }
+  end
+end
+```
+
+**Key principles:**
+- Pass errors via Inertia props, NOT flash messages
+- Use `redirect_back_or_to` to maintain user context
+- Format errors with full messages for i18n support
+- Errors structure: `{ field_name: ["Error message 1", "Error message 2"] }`
+
 ### React Component Guidelines
 
 - Extract components when they exceed 200 lines
@@ -129,6 +161,184 @@ render inertia: "Users/Show", props: { user: @user }
 - Follow naming conventions: PascalCase for components, camelCase for functions
 - Co-locate related components in feature folders
 - Use custom hooks for complex state logic
+
+#### Form Component Pattern
+
+Forms should accept an `onSuccess` callback for modal workflows and properly handle errors:
+
+```typescript
+interface FormProps {
+  resource: any;
+  onSubmit: (form: any) => void;
+  onSuccess?: () => void;  // Optional callback for modal close
+  submitText: string;
+}
+
+export default function Form({ resource, onSubmit, onSuccess, submitText }: FormProps) {
+  const form = useForm({ /* initial data */ });
+
+  const handleSubmit = (e: any) => {
+    e.preventDefault();
+
+    // AIDEV-NOTE: Wrap form methods to inject onSuccess callback
+    const formWithCallback = {
+      ...form,
+      post: (url: string, options = {}) => {
+        return form.post(url, {
+          ...options,
+          onSuccess: () => { if (onSuccess) onSuccess(); }
+        });
+      },
+      patch: (url: string, options = {}) => {
+        return form.patch(url, {
+          ...options,
+          onSuccess: () => { if (onSuccess) onSuccess(); }
+        });
+      }
+    };
+
+    onSubmit(formWithCallback);
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      {/* Form fields */}
+      {errors.field && (
+        <p className="text-sm font-medium text-destructive">
+          {(errors.field as string[]).join(", ")}
+        </p>
+      )}
+    </form>
+  );
+}
+```
+
+**Key principles:**
+- Always define TypeScript interfaces for component props
+- Accept optional `onSuccess` callback for modal workflows
+- Type cast errors as `string[]` before joining: `(errors.field as string[]).join(", ")`
+- Wrap form methods to inject callbacks when needed
+
+#### Empty Object Pattern
+
+When creating forms for new resources, define empty objects with proper defaults:
+
+```typescript
+// AIDEV-NOTE: Empty object with defaults for creating new resources
+const emptyResource = {
+  title: "",
+  description: "",
+  status: "",
+  published: false,
+};
+
+<New resource={emptyResource} isModal={true} onSuccess={() => setDialogOpen(false)} />
+```
+
+#### Table Meta Pattern
+
+Use TanStack Table's `meta` option to pass callbacks for row actions:
+
+```typescript
+const table = useReactTable({
+  data,
+  columns,
+  // ... other options
+  meta: {
+    onEdit: handleEdit,
+    onDelete: handleDelete,
+  },
+});
+
+// In column definition
+{
+  id: "actions",
+  cell: ({ row, table }) => {
+    const onEdit = (table.options.meta as any)?.onEdit;
+    return (
+      <Button onClick={() => onEdit?.(row.original)}>
+        Edit
+      </Button>
+    );
+  },
+}
+```
+
+**Key principles:**
+- Pass callbacks via `meta` instead of props drilling
+- Use type-safe access: `(table.options.meta as any)?.callback`
+- Check callback existence with optional chaining: `callback?.()`
+
+### Import Conventions
+
+Maintain consistent import patterns across the frontend codebase:
+
+```typescript
+// ✅ CORRECT - Use path aliases for cleaner imports
+import { Button } from "@ui/button";
+import { Card, CardContent } from "@ui/card";
+import * as routes from "@src/routes";
+import { SiteHeader } from "@src/components/common/site-header";
+
+// ❌ INCORRECT - Avoid complex relative paths
+import { Button } from "../../../components/ui/button";
+import { Card } from "../../ui/card";
+```
+
+**Import order (recommended):**
+1. External dependencies (React, Inertia, libraries)
+2. `@ui/` components (shadcn/ui)
+3. `@src/` imports (routes, hooks, utils)
+4. Local imports (relative paths for same directory)
+5. Type imports (if separated)
+
+**Path aliases:**
+- `@ui/` → `app/frontend/src/components/ui/`
+- `@src/` → `app/frontend/src/`
+- Configure in `tsconfig.json` and `vite.config.ts`
+
+### Navigation Patterns
+
+#### Active Route Detection
+
+Implement active state detection for navigation items (e.g., sidebar):
+
+```typescript
+import { usePage } from "@inertiajs/react";
+
+export function NavMain({ items }: { items: NavItem[] }) {
+  const { url: currentUrl } = usePage();
+
+  // AIDEV-NOTE: Check if current URL matches item URL for active state
+  const isActiveRoute = (itemUrl: string) => {
+    // Exact match for root path
+    if (itemUrl === "/" && currentUrl === "/") return true;
+    // For other paths, check if current URL starts with the item URL
+    if (itemUrl !== "/" && currentUrl.startsWith(itemUrl)) return true;
+    return false;
+  };
+
+  return (
+    <nav>
+      {items.map((item) => (
+        <NavLink
+          key={item.url}
+          href={item.url}
+          isActive={isActiveRoute(item.url)}
+        >
+          {item.title}
+        </NavLink>
+      ))}
+    </nav>
+  );
+}
+```
+
+**Key principles:**
+- Use `usePage().url` to get current URL in Inertia
+- Handle root path (`/`) separately with exact match
+- Use `startsWith()` for nested routes (e.g., `/articles/1` matches `/articles`)
+- Apply active state to navigation components via `isActive` prop
 
 ### Testing Patterns
 

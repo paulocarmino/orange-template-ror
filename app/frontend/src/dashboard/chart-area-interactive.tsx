@@ -170,21 +170,22 @@ export function ChartAreaInteractive() {
           </span>
           <span className="@[540px]/card:hidden">Last 3 months</span>
         </CardDescription>
-        <div className="absolute right-4 top-4">
+        <div className="absolute right-6 top-6">
           <ToggleGroup
             type="single"
             value={timeRange}
             onValueChange={setTimeRange}
             variant="outline"
+            spacing={1}
             className="@[767px]/card:flex hidden"
           >
-            <ToggleGroupItem value="90d" className="h-8 px-2.5">
+            <ToggleGroupItem value="90d" className="h-8 rounded-md px-2.5">
               Last 3 months
             </ToggleGroupItem>
-            <ToggleGroupItem value="30d" className="h-8 px-2.5">
+            <ToggleGroupItem value="30d" className="h-8 rounded-md px-2.5">
               Last 30 days
             </ToggleGroupItem>
-            <ToggleGroupItem value="7d" className="h-8 px-2.5">
+            <ToggleGroupItem value="7d" className="h-8 rounded-md px-2.5">
               Last 7 days
             </ToggleGroupItem>
           </ToggleGroup>
