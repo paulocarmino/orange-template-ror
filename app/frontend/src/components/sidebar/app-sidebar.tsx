@@ -1,16 +1,20 @@
 import * as React from "react";
 import {
   Citrus,
+  ClipboardListIcon,
   Database,
+  DatabaseIcon,
+  FileIcon,
   HelpCircleIcon,
   HomeIcon,
   SearchIcon,
   SettingsIcon,
 } from "lucide-react";
 
-import { NavMain } from "@/frontend/src/components/sidebar/nav-main";
-import { NavSecondary } from "@/frontend/src/components/sidebar/nav-secondary";
-import { NavUser } from "@/frontend/src/components/sidebar/nav-user";
+import { NavDocuments } from "@src/components/nav-documents";
+import { NavMain } from "@src/components/nav-main";
+import { NavSecondary } from "@src/components/nav-secondary";
+import { NavUser } from "@src/components/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -29,6 +33,7 @@ type AppSidebarProps = {
 } & React.ComponentProps<typeof Sidebar>;
 
 export function AppSidebar({ variant, models, user }: AppSidebarProps) {
+  // AIDEV-NOTE: Dynamic sidebar data based on Rails models and authenticated user
   const data = {
     user: {
       name: user.full_name,
@@ -48,9 +53,24 @@ export function AppSidebar({ variant, models, user }: AppSidebarProps) {
           .toLowerCase()
           .replace(/^_/, "")}`,
         icon: Database,
-        isActive: false,
-        items: [],
       })),
+    ],
+    documents: [
+      {
+        name: "Data Library",
+        url: "#",
+        icon: DatabaseIcon,
+      },
+      {
+        name: "Reports",
+        url: "#",
+        icon: ClipboardListIcon,
+      },
+      {
+        name: "Documentation",
+        url: "#",
+        icon: FileIcon,
+      },
     ],
     navSecondary: [
       {
@@ -81,7 +101,7 @@ export function AppSidebar({ variant, models, user }: AppSidebarProps) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link href={routes.root()}>
-                <div className="flex items-center justify-center rounded-lg aspect-square size-8 bg-primary text-primary-foreground">
+                <div className="flex justify-center items-center rounded-lg aspect-square size-8 bg-primary text-primary-foreground">
                   <Citrus className="size-4" />
                 </div>
                 <div className="grid flex-1 text-sm leading-tight text-left">
@@ -97,6 +117,7 @@ export function AppSidebar({ variant, models, user }: AppSidebarProps) {
       </SidebarHeader>
       <SidebarContent>
         <NavMain items={data.navMain} />
+        <NavDocuments items={data.documents} />
         <NavSecondary items={data.navSecondary} className="mt-auto" />
       </SidebarContent>
       <SidebarFooter>
