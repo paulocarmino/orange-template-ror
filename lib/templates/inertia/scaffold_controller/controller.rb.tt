@@ -45,18 +45,21 @@ class <%= controller_class_name %>Controller < ApplicationController
     @<%= singular_table_name %> = <%= orm_class.build(class_name, "#{singular_table_name}_params") %>
 
     if @<%= orm_instance.save %>
-      redirect_to <%= redirect_resource_name %>, notice: <%= %("#{human_name} was successfully created.") %>
+      redirect_to <%= index_helper %>_url, notice: <%= %("#{human_name} was successfully created.") %>
     else
-      redirect_to <%= new_helper %>, inertia: { errors: @<%= singular_table_name %>.errors }
+      # AIDEV-NOTE: Redirect back to preserve origin page (dashboard, <%= plural_table_name %>, etc)
+      # Modal stays open, Inertia soft-navigates with errors
+      redirect_back_or_to <%= index_helper %>_url, inertia: {errors: format_errors_for_inertia(@<%= singular_table_name %>)}
     end
   end
 
   # PATCH/PUT <%= route_url %>/1
   def update
     if @<%= orm_instance.update("#{singular_table_name}_params") %>
-      redirect_to <%= redirect_resource_name %>, notice: <%= %("#{human_name} was successfully updated.") %>
+      # AIDEV-NOTE: Redirect back to preserve origin page (modal from show, index, or edit page)
+      redirect_back_or_to @<%= singular_table_name %>, notice: <%= %("#{human_name} was successfully updated.") %>
     else
-      redirect_to <%= edit_helper %>, inertia: { errors: @<%= singular_table_name %>.errors }
+      redirect_back_or_to <%= edit_helper %>, inertia: {errors: format_errors_for_inertia(@<%= singular_table_name %>)}
     end
   end
 
@@ -95,6 +98,14 @@ class <%= controller_class_name %>Controller < ApplicationController
           end
           <%- end -%>
       end<% end %>
+    end
+
+    # AIDEV-NOTE: Format errors with full messages for i18n support
+    # Returns hash like { title: ["Title can't be blank"] }
+    def format_errors_for_inertia(record)
+      record.errors.attribute_names.index_with do |attr|
+        record.errors.full_messages_for(attr)
+      end
     end
 end
 <% end -%>

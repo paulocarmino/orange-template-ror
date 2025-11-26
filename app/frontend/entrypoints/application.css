@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 
+/* AIDEV-NOTE: Google Fonts imports for sunset-horizon theme */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@300;400;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Mono:wght@400;700&display=swap');
+
 @custom-variant dark (&:is(.dark *));
 @config "../../../tailwind.config.js";
 @plugin "@tailwindcss/forms";
@@ -37,9 +42,22 @@
   --color-chart-5: hsl(var(--chart-5));
 
   /* Spacing & Layout */
-  --radius: 0.5rem;
+  --radius: 0.625rem;
   --sidebar-width: 16rem;
   --sidebar-width-icon: 3rem;
+
+  /* Typography - Fonts */
+  --font-sans: Montserrat, sans-serif;
+  --font-serif: Merriweather, serif;
+  --font-mono: Ubuntu Mono, monospace;
+
+  /* Typography - Letter Spacing */
+  --tracking-normal: 0em;
+  --tracking-tighter: calc(var(--tracking-normal) - 0.05em);
+  --tracking-tight: calc(var(--tracking-normal) - 0.025em);
+  --tracking-wide: calc(var(--tracking-normal) + 0.025em);
+  --tracking-wider: calc(var(--tracking-normal) + 0.05em);
+  --tracking-widest: calc(var(--tracking-normal) + 0.1em);
 }
 
 /* AIDEV-NOTE: Sidebar colors use @theme inline for dynamic mapping */
@@ -93,10 +111,6 @@
       --sidebar-accent-foreground: 346.6667 7.9646% 22.1569%;
       --sidebar-border: 14.6341 100.0000% 91.9608%;
       --sidebar-ring: 11.6250 100% 68.6275%;
-      --font-sans: Montserrat, sans-serif;
-      --font-serif: Merriweather, serif;
-      --font-mono: Ubuntu Mono, monospace;
-      --radius: 0.625rem;
       --shadow-x: 0px;
       --shadow-y: 6px;
       --shadow-blur: 12px;
@@ -111,7 +125,6 @@
       --shadow-lg: 0px 6px 12px -3px hsl(0 0% 0% / 0.09), 0px 4px 6px -4px hsl(0 0% 0% / 0.09);
       --shadow-xl: 0px 6px 12px -3px hsl(0 0% 0% / 0.09), 0px 8px 10px -4px hsl(0 0% 0% / 0.09);
       --shadow-2xl: 0px 6px 12px -3px hsl(0 0% 0% / 0.22);
-      --tracking-normal: 0em;
       --spacing: 0.25rem;
     }
   
@@ -140,18 +153,14 @@
       --chart-3: 23.8636 100.0000% 82.7451%;
       --chart-4: 16.0714 100% 78.0392%;
       --chart-5: 9.5798 54.8387% 57.4510%;
-      --sidebar: 336 13.5135% 14.5098%;
+      --sidebar: 336 13.5135% 11.5%;
       --sidebar-foreground: 21.4286 35.0000% 92.1569%;
       --sidebar-primary: 11.6250 100% 68.6275%;
       --sidebar-primary-foreground: 0 0% 100%;
       --sidebar-accent: 26.1069 98.4962% 73.9216%;
       --sidebar-accent-foreground: 336 13.5135% 14.5098%;
-      --sidebar-border: 325 9.3750% 25.0980%;
+      --sidebar-border: 325 9.3750% 22%;
       --sidebar-ring: 11.6250 100% 68.6275%;
-      --font-sans: Montserrat, sans-serif;
-      --font-serif: Merriweather, serif;
-      --font-mono: Ubuntu Mono, monospace;
-      --radius: 0.625rem;
       --shadow-x: 0px;
       --shadow-y: 6px;
       --shadow-blur: 12px;
@@ -174,5 +183,6 @@
 
   body {
     @apply bg-background text-foreground;
+    letter-spacing: var(--tracking-normal);
   }
 }

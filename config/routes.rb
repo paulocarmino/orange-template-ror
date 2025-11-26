@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :monitor_checks
   resources :articles
   root "dashboard#index"
   get "up" => "rails/health#show", :as => :rails_health_check

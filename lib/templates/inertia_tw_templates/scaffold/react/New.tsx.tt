@@ -1,23 +1,65 @@
-import { Head } from "@inertiajs/react";
+import { Link, Head } from "@inertiajs/react";
 import Form from "./form";
 import * as routes from "@src/routes";
 import { SiteHeader } from "@/frontend/src/components/common/site-header";
+import { Button } from "@ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
+import { ArrowLeft } from "lucide-react";
 
-export default function New({ <%= singular_table_name %> }: any) {
+interface NewProps {
+  <%= singular_table_name %>: any;
+  isModal?: boolean;
+  onSuccess?: () => void;
+}
+
+export default function New({ <%= singular_table_name %>, isModal = false, onSuccess }: NewProps) {
+  if (isModal) {
+    return (
+      <Form
+        <%= singular_table_name %>={<%= singular_table_name %>}
+        onSubmit={(form: any) => {
+          form.transform((data: any) => ({ <%= singular_table_name %>: data }));
+          form.post(routes.<%= plural_table_name %>());
+        }}
+        onSuccess={onSuccess}
+        submitText="Create <%= human_name.downcase %>"
+      />
+    );
+  }
+
   return (
     <>
-      <Head title={`New <%= human_name.capitalize %>`} />
-      <SiteHeader title={`New <%= human_name.capitalize %>`} />
+      <Head title="New <%= human_name %>" />
+      <SiteHeader title="New <%= human_name %>" />
 
       <div className="w-full px-4 lg:px-6">
-        <Form
-          <%= singular_table_name %>={<%= singular_table_name %>}
-          onSubmit={(form: any) => {
-            form.transform((data: any) => ({ <%= singular_table_name %>: data }));
-            form.post(routes.<%= plural_table_name %>());
-          }}
-          submitText={`Create <%= human_name.downcase %>`}
-        />
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href={routes.<%= plural_table_name %>()}>
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to <%= plural_table_name %>
+              </Link>
+            </Button>
+          </div>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Create New <%= human_name %></CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form
+                <%= singular_table_name %>={<%= singular_table_name %>}
+                onSubmit={(form: any) => {
+                  form.transform((data: any) => ({ <%= singular_table_name %>: data }));
+                  form.post(routes.<%= plural_table_name %>());
+                }}
+                onSuccess={onSuccess}
+                submitText="Create <%= human_name.downcase %>"
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </>
   );

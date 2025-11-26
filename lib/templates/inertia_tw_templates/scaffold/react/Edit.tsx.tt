@@ -1,42 +1,83 @@
-import { Link, Head } from '@inertiajs/react';
-import Form from './form';
-
+import { Link, Head } from "@inertiajs/react";
+import Form from "./form";
+import * as routes from "@src/routes";
+import { Button } from "@ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@ui/card";
 import { SiteHeader } from "@/frontend/src/components/common/site-header";
-import { Button } from "@ui/button"; 
-import * as routes from "@src/routes"; 
+import { ArrowLeft, Eye } from "lucide-react";
 
-export default function Edit({ <%= singular_table_name %> }: any) {
+interface EditProps {
+  <%= singular_table_name %>: any;
+  isModal?: boolean;
+  onSuccess?: () => void;
+}
+
+export default function Edit({ <%= singular_table_name %>, isModal = false, onSuccess }: EditProps) {
+  if (isModal) {
+    return (
+      <Form
+        <%= singular_table_name %>={<%= singular_table_name %>}
+        onSubmit={(form: any) => {
+          form.transform((data: any) => ({ <%= singular_table_name %>: data }));
+<% if attributes.any?(&:attachments?) -%>
+          form.post(routes.<%= singular_table_name %>(<%= singular_table_name %>.id), {
+            headers: { 'X-HTTP-METHOD-OVERRIDE': 'put' }
+          });
+<% else -%>
+          form.patch(routes.<%= singular_table_name %>(<%= singular_table_name %>.id));
+<% end -%>
+        }}
+        onSuccess={onSuccess}
+        submitText="Update <%= human_name.downcase %>"
+      />
+    );
+  }
+
   return (
     <>
-      <Head title={`Editing <%= human_name.downcase %>`} />
-      <SiteHeader title={`Editing <%= human_name.downcase %>`} />
+      <Head title="Editing <%= human_name.downcase %>" />
+      <SiteHeader title="Editing <%= human_name.downcase %>" />
 
       <div className="w-full px-4 lg:px-6">
-        <div className="w-2/3 mt-2">
-          <div className="flex items-center justify-between">
-            <h1 className="text-4xl font-bold">Editing <%= human_name.downcase %></h1>
+        <div className="max-w-4xl mx-auto">
+          <div className="flex items-center justify-between mb-6">
+            <Button variant="ghost" size="sm" asChild>
+              <Link href={routes.<%= plural_table_name %>()}>
+                <ArrowLeft className="h-4 w-4 mr-2" />
+                Back to <%= plural_table_name %>
+              </Link>
+            </Button>
 
-            <Button variant="outline" className="ml-3" asChild>
+            <Button variant="outline" size="sm" asChild>
               <Link href={routes.<%= singular_table_name %>(<%= singular_table_name %>.id)}>
-                Show this <%= human_name.downcase %>
+                <Eye className="h-4 w-4 mr-2" />
+                View <%= human_name.downcase %>
               </Link>
             </Button>
           </div>
 
-          <Form
-            <%= singular_table_name %>={<%= singular_table_name %>}
-            onSubmit={(form: any) => {
-              form.transform((data: any) => ({ <%= singular_table_name %>: data }));
+          <Card>
+            <CardHeader>
+              <CardTitle>Edit <%= human_name %></CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Form
+                <%= singular_table_name %>={<%= singular_table_name %>}
+                onSubmit={(form: any) => {
+                  form.transform((data: any) => ({ <%= singular_table_name %>: data }));
 <% if attributes.any?(&:attachments?) -%>
-              form.post(routes.<%= singular_table_name %>(<%= singular_table_name %>.id), {
-                headers: { 'X-HTTP-METHOD-OVERRIDE': 'put' }
-              });
+                  form.post(routes.<%= singular_table_name %>(<%= singular_table_name %>.id), {
+                    headers: { 'X-HTTP-METHOD-OVERRIDE': 'put' }
+                  });
 <% else -%>
-              form.patch(routes.<%= singular_table_name %>(<%= singular_table_name %>.id));
+                  form.patch(routes.<%= singular_table_name %>(<%= singular_table_name %>.id));
 <% end -%>
-            }}
-            submitText={`Update <%= human_name.downcase %>`}
-          />
+                }}
+                onSuccess={onSuccess}
+                submitText="Update <%= human_name.downcase %>"
+              />
+            </CardContent>
+          </Card>
         </div>
       </div>
     </>

@@ -1,5 +1,5 @@
 import { MailIcon, PlusCircleIcon, type LucideIcon } from "lucide-react"
-import { Link } from "@inertiajs/react"
+import { Link, usePage } from "@inertiajs/react"
 
 import { Button } from "@src/components/ui/button"
 import {
@@ -19,6 +19,17 @@ export function NavMain({
     icon?: LucideIcon
   }[]
 }) {
+  const { url: currentUrl } = usePage()
+
+  // AIDEV-NOTE: Check if current URL matches item URL for active state
+  const isActiveRoute = (itemUrl: string) => {
+    // Exact match for root path
+    if (itemUrl === "/" && currentUrl === "/") return true
+    // For other paths, check if current URL starts with the item URL
+    if (itemUrl !== "/" && currentUrl.startsWith(itemUrl)) return true
+    return false
+  }
+
   return (
     <SidebarGroup>
       <SidebarGroupContent className="flex flex-col gap-2">
@@ -44,7 +55,11 @@ export function NavMain({
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton tooltip={item.title} asChild>
+              <SidebarMenuButton
+                tooltip={item.title}
+                isActive={isActiveRoute(item.url)}
+                asChild
+              >
                 <Link href={item.url}>
                   {item.icon && <item.icon />}
                   <span>{item.title}</span>

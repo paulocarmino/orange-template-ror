@@ -40,18 +40,21 @@ class ArticlesController < ApplicationController
     @article = Article.new(article_params)
 
     if @article.save
-      redirect_to @article, notice: "Article was successfully created."
+      redirect_to articles_url, notice: "Article was successfully created."
     else
-      redirect_to new_article_url, inertia: { errors: @article.errors }
+      # AIDEV-NOTE: Redirect back to preserve origin page (dashboard, articles, etc)
+      # Modal stays open, Inertia soft-navigates with errors
+      redirect_back_or_to articles_url, inertia: {errors: format_errors_for_inertia(@article)}
     end
   end
 
   # PATCH/PUT /articles/1
   def update
     if @article.update(article_params)
-      redirect_to @article, notice: "Article was successfully updated."
+      # AIDEV-NOTE: Redirect back to preserve origin page (modal from show, index, or edit page)
+      redirect_back_or_to @article, notice: "Article was successfully updated."
     else
-      redirect_to edit_article_url(@article), inertia: { errors: @article.errors }
+      redirect_back_or_to edit_article_url(@article), inertia: {errors: format_errors_for_inertia(@article)}
     end
   end
 
@@ -76,5 +79,13 @@ class ArticlesController < ApplicationController
       article.as_json(only: [
         :id, :title, :body, :author, :published_at, :status, :featured
       ])
+    end
+
+    # AIDEV-NOTE: Format errors with full messages for i18n support
+    # Returns hash like { title: ["Title can't be blank"] }
+    def format_errors_for_inertia(record)
+      record.errors.attribute_names.index_with do |attr|
+        record.errors.full_messages_for(attr)
+      end
     end
 end

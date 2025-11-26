@@ -1,9 +1,18 @@
-import { useForm } from '@inertiajs/react';
+import { Button } from "@ui/button";
+import { useForm } from "@inertiajs/react";
 import { Input } from "@ui/input";
+import { Label } from "@ui/label";
 import { Textarea } from "@ui/textarea";
-import { Button } from "@/frontend/src/components/ui/button";
+import { Checkbox } from "@ui/checkbox";
 
-export default function Form({ <%= singular_table_name %>, onSubmit, submitText }: any) {
+interface FormProps {
+  <%= singular_table_name %>: any;
+  onSubmit: (form: any) => void;
+  onSuccess?: () => void;
+  submitText: string;
+}
+
+export default function Form({ <%= singular_table_name %>, onSubmit, onSuccess, submitText }: FormProps) {
   const form = useForm({
 <% attributes.each do |attribute| -%>
 <% if attribute.password_digest? -%>
@@ -18,102 +27,131 @@ export default function Form({ <%= singular_table_name %>, onSubmit, submitText 
 
   const handleSubmit = (e: any) => {
     e.preventDefault();
-    onSubmit(form);
+
+    // AIDEV-NOTE: Wrap form methods to inject onSuccess callback
+    const formWithCallback = {
+      ...form,
+      post: (url: string, options = {}) => {
+        return form.post(url, {
+          ...options,
+          onSuccess: () => {
+            if (onSuccess) onSuccess();
+          }
+        });
+      },
+      patch: (url: string, options = {}) => {
+        return form.patch(url, {
+          ...options,
+          onSuccess: () => {
+            if (onSuccess) onSuccess();
+          }
+        });
+      }
+    };
+
+    onSubmit(formWithCallback);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="contents">
+    <form onSubmit={handleSubmit} className="space-y-6">
 <% attributes.each do |attribute| -%>
   <% if attribute.password_digest? -%>
-      <div className="my-5">
-        <label htmlFor="password">Password</label>
+      <div className="space-y-2">
+        <Label htmlFor="password">Password</Label>
         <Input
           type="password"
           name="password"
           id="password"
-          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('password', e.target.value)}
         />
         {errors.password && (
-          <div className="px-3 py-2 font-medium text-red-500">
-            {Array(errors.password).join(', ')}
-          </div>
+          <p className="text-sm font-medium text-destructive">
+            {(errors.password as string[]).join(", ")}
+          </p>
         )}
       </div>
-      <div className="my-5">
-        <label htmlFor="password_confirmation">Password Confirmation</label>
+      <div className="space-y-2">
+        <Label htmlFor="password_confirmation">Password Confirmation</Label>
         <Input
           type="password"
           name="password_confirmation"
           id="password_confirmation"
-          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('password_confirmation', e.target.value)}
         />
         {errors.password_confirmation && (
-          <div className="px-3 py-2 font-medium text-red-500">
-            {Array(errors.password_confirmation).join(', ')}
-          </div>
+          <p className="text-sm font-medium text-destructive">
+            {(errors.password_confirmation as string[]).join(", ")}
+          </p>
         )}
       </div>
   <% else -%>
-      <div className="my-5">
-        <label htmlFor="<%= attribute.singular_name %>"><%= attribute.human_name %></label>
-  <% if input_type(attribute) == "text_area" -%>
+    <% if input_type(attribute) == "checkbox" -%>
+      <div className="space-y-2">
+        <div className="flex items-center space-x-2">
+          <Checkbox
+            id="<%= attribute.singular_name %>"
+            checked={!!data.<%= attribute.column_name %>}
+            onCheckedChange={(checked) => setData('<%= attribute.column_name %>', checked)}
+          />
+          <Label htmlFor="<%= attribute.singular_name %>" className="font-normal cursor-pointer">
+            <%= attribute.human_name %>
+          </Label>
+        </div>
+        {errors.<%= attribute.column_name %> && (
+          <p className="text-sm font-medium text-destructive">
+            {(errors.<%= attribute.column_name %> as string[]).join(", ")}
+          </p>
+        )}
+      </div>
+    <% else -%>
+      <div className="space-y-2">
+        <Label htmlFor="<%= attribute.singular_name %>"><%= attribute.human_name %></Label>
+      <% if input_type(attribute) == "text_area" -%>
         <Textarea
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
-          rows={4}
-          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
+          rows={6}
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
-  <% elsif attribute.attachment? -%>
+      <% elsif attribute.attachment? -%>
         <Input
           type="file"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
-          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.files[0])}
         />
-  <% elsif attribute.attachments? -%>
+      <% elsif attribute.attachments? -%>
         <Input
           type="file"
           multiple
           name="<%= attribute.singular_name %>[]"
           id="<%= attribute.singular_name %>"
-          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', Array.from(e.target.files))}
         />
-  <% elsif input_type(attribute) == "checkbox" -%>
-        <Input
-          type="checkbox"
-          name="<%= attribute.singular_name %>"
-          id="<%= attribute.singular_name %>"
-          checked={!!data.<%= attribute.column_name %>}
-          className="block mt-2"
-          onChange={(e) => setData('<%= attribute.column_name %>', e.target.checked)}
-        />
-  <% else -%>
+      <% else -%>
         <Input
           type="<%= input_type(attribute) %>"
           name="<%= attribute.singular_name %>"
           id="<%= attribute.singular_name %>"
           value={data.<%= attribute.column_name %>}
-          className="block w-full px-3 py-2 mt-2 border border-gray-400 rounded-md shadow outline-none"
           onChange={(e) => setData('<%= attribute.column_name %>', e.target.value)}
         />
-  <% end -%>
+      <% end -%>
         {errors.<%= attribute.column_name %> && (
-          <div className="px-3 py-2 font-medium text-red-500">
-            {Array(errors.<%= attribute.column_name %>).join(', ')}
-          </div>
+          <p className="text-sm font-medium text-destructive">
+            {(errors.<%= attribute.column_name %> as string[]).join(", ")}
+          </p>
         )}
       </div>
+    <% end -%>
   <% end -%>
 <% end -%>
-      <Button type="submit" disabled={processing}>
-        {submitText}
-      </Button>
+      <div className="flex justify-end pt-4">
+        <Button type="submit" disabled={processing}>
+          {submitText}
+        </Button>
+      </div>
     </form>
   );
 }

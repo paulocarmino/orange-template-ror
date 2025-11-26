@@ -40,8 +40,13 @@ const data = {
   navMain: [
     {
       title: "Dashboard",
-      url: "#",
+      url: "/",
       icon: LayoutDashboardIcon,
+    },
+    {
+      title: "Articles",
+      url: "/articles",
+      icon: FileTextIcon,
     },
     {
       title: "Lifecycle",

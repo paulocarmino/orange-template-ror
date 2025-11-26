@@ -2,6 +2,14 @@ import { Link, Head } from "@inertiajs/react";
 
 import { Button } from "@src/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@ui/dialog";
+import New from "./new";
+import Edit from "./edit";
+import {
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -51,7 +59,8 @@ export const columns: ColumnDef<any>[] = [
 <% end -%>
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const onEdit = (table.options.meta as any)?.onEdit;
       return (
         <div className="flex gap-2">
           <Link href={routes.<%= singular_table_name %>(row.original.id)}>
@@ -59,18 +68,27 @@ export const columns: ColumnDef<any>[] = [
               View
             </Button>
           </Link>
-          <Link href={routes.edit_<%= singular_table_name %>(row.original.id)}>
-            <Button variant={"outline"} size="sm">
-              Edit
-            </Button>
-          </Link>
+          <Button
+            variant={"outline"}
+            size="sm"
+            onClick={() => onEdit?.(row.original)}
+          >
+            Edit
+          </Button>
         </div>
       );
     },
   },
 ];
 
-const DataTable = ({ data, columns }: any) => {
+interface DataTableProps {
+  data: any[];
+  columns: ColumnDef<any>[];
+  onNew<%= class_name %>: () => void;
+  onEdit<%= class_name %>: (<%= singular_table_name %>: any) => void;
+}
+
+const DataTable = ({ data, columns, onNew<%= class_name %>, onEdit<%= class_name %> }: DataTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -86,6 +104,9 @@ const DataTable = ({ data, columns }: any) => {
     state: {
       sorting,
       columnFilters,
+    },
+    meta: {
+      onEdit: onEdit<%= class_name %>,
     },
   });
 
@@ -105,11 +126,9 @@ const DataTable = ({ data, columns }: any) => {
 
         <div className="flex justify-center gap-2">
           <DataTableViewOptions table={table} />
-          <Button size="sm" asChild>
-            <Link href={routes.new_<%= singular_table_name %>()}>
-              <PlusIcon className="w-4 h-4 mr-2" />
-              New <%= human_name.downcase %>
-            </Link>
+          <Button size="sm" onClick={onNew<%= class_name %>}>
+            <PlusIcon />
+            New <%= human_name.downcase %>
           </Button>
         </div>
       </div>
@@ -169,14 +188,63 @@ const DataTable = ({ data, columns }: any) => {
 };
 
 export default function Index({ <%= plural_table_name %> }: any) {
+  const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editing<%= class_name %>, setEditing<%= class_name %>] = useState<any>(null);
+
+  // AIDEV-NOTE: Empty <%= singular_table_name %> object for creating new <%= plural_table_name %>
+  const empty<%= class_name %> = {
+<% attributes.reject(&:password_digest?).each do |attribute| -%>
+    <%= attribute.column_name %>: <%= default_value(attribute) %>,
+<% end -%>
+  };
+
+  const handleEdit = (<%= singular_table_name %>: any) => {
+    setEditing<%= class_name %>(<%= singular_table_name %>);
+    setIsEditDialogOpen(true);
+  };
+
   return (
     <>
       <Head title="<%= human_name.pluralize %>" />
       <SiteHeader title="<%= human_name.pluralize %>" />
 
       <div className="w-full px-4 lg:px-6">
-        <DataTable columns={columns} data={<%= plural_table_name %>} />
+        <DataTable
+          columns={columns}
+          data={<%= plural_table_name %>}
+          onNew<%= class_name %>={() => setIsNewDialogOpen(true)}
+          onEdit<%= class_name %>={handleEdit}
+        />
       </div>
+
+      <Dialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New <%= human_name %></DialogTitle>
+          </DialogHeader>
+          <New
+            <%= singular_table_name %>={empty<%= class_name %>}
+            isModal={true}
+            onSuccess={() => setIsNewDialogOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit <%= human_name %></DialogTitle>
+          </DialogHeader>
+          {editing<%= class_name %> && (
+            <Edit
+              <%= singular_table_name %>={editing<%= class_name %>}
+              isModal={true}
+              onSuccess={() => setIsEditDialogOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }

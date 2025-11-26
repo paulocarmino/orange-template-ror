@@ -2,6 +2,14 @@ import { Link, Head } from "@inertiajs/react";
 
 import { Button } from "@src/components/ui/button";
 import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@ui/dialog";
+import New from "./new";
+import Edit from "./edit";
+import {
   ColumnDef,
   ColumnFiltersState,
   flexRender,
@@ -86,7 +94,8 @@ export const columns: ColumnDef<any>[] = [
   },
   {
     id: "actions",
-    cell: ({ row }) => {
+    cell: ({ row, table }) => {
+      const onEdit = (table.options.meta as any)?.onEdit;
       return (
         <div className="flex gap-2">
           <Link href={routes.article(row.original.id)}>
@@ -94,18 +103,27 @@ export const columns: ColumnDef<any>[] = [
               View
             </Button>
           </Link>
-          <Link href={routes.edit_article(row.original.id)}>
-            <Button variant={"outline"} size="sm">
-              Edit
-            </Button>
-          </Link>
+          <Button
+            variant={"outline"}
+            size="sm"
+            onClick={() => onEdit?.(row.original)}
+          >
+            Edit
+          </Button>
         </div>
       );
     },
   },
 ];
 
-const DataTable = ({ data, columns }: any) => {
+interface DataTableProps {
+  data: any[];
+  columns: ColumnDef<any>[];
+  onNewArticle: () => void;
+  onEditArticle: (article: any) => void;
+}
+
+const DataTable = ({ data, columns, onNewArticle, onEditArticle }: DataTableProps) => {
   const [sorting, setSorting] = useState<SortingState>([]);
   const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 
@@ -121,6 +139,9 @@ const DataTable = ({ data, columns }: any) => {
     state: {
       sorting,
       columnFilters,
+    },
+    meta: {
+      onEdit: onEditArticle,
     },
   });
 
@@ -140,11 +161,9 @@ const DataTable = ({ data, columns }: any) => {
 
         <div className="flex justify-center gap-2">
           <DataTableViewOptions table={table} />
-          <Button size="sm" asChild>
-            <Link href={routes.new_article()}>
-              <PlusIcon />
-              New article
-            </Link>
+          <Button size="sm" onClick={onNewArticle}>
+            <PlusIcon />
+            New article
           </Button>
         </div>
       </div>
@@ -204,14 +223,66 @@ const DataTable = ({ data, columns }: any) => {
 };
 
 export default function Index({ articles }: any) {
+  const [isNewDialogOpen, setIsNewDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingArticle, setEditingArticle] = useState<any>(null);
+
+  // AIDEV-NOTE: Empty article object for creating new articles
+  const emptyArticle = {
+    title: "",
+    body: "",
+    author: "",
+    published_at: "",
+    status: "",
+    featured: false,
+  };
+
+  const handleEdit = (article: any) => {
+    setEditingArticle(article);
+    setIsEditDialogOpen(true);
+  };
+
   return (
     <>
       <Head title="Articles" />
       <SiteHeader title="Articles" />
 
       <div className="w-full px-4 lg:px-6">
-        <DataTable columns={columns} data={articles} />
+        <DataTable
+          columns={columns}
+          data={articles}
+          onNewArticle={() => setIsNewDialogOpen(true)}
+          onEditArticle={handleEdit}
+        />
       </div>
+
+      <Dialog open={isNewDialogOpen} onOpenChange={setIsNewDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>New Article</DialogTitle>
+          </DialogHeader>
+          <New
+            article={emptyArticle}
+            isModal={true}
+            onSuccess={() => setIsNewDialogOpen(false)}
+          />
+        </DialogContent>
+      </Dialog>
+
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Edit Article</DialogTitle>
+          </DialogHeader>
+          {editingArticle && (
+            <Edit
+              article={editingArticle}
+              isModal={true}
+              onSuccess={() => setIsEditDialogOpen(false)}
+            />
+          )}
+        </DialogContent>
+      </Dialog>
     </>
   );
 }
