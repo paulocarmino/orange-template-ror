@@ -66,7 +66,7 @@ RSpec.configure do |config|
   # arbitrary gems may also be filtered via:
   # config.filter_gems_from_backtrace("gem name")
 
-  config.fixture_path = Rails.root.join("spec/fixtures")
+  # AIDEV-NOTE: fixture_path (singular) removed in rspec-rails 8.0, use fixture_paths (plural) above
   config.global_fixtures = :all
 
   config.include ActiveJob::TestHelper

@@ -13,4 +13,11 @@ export default defineConfig({
       "@components": path.resolve(__dirname, "./app/frontend/src/components"),
     },
   },
+  server: {
+    // AIDEV-NOTE: Fix WebSocket connection - use localhost instead of 127.0.0.1
+    host: "localhost",
+    hmr: {
+      host: "localhost",
+    },
+  },
 });
