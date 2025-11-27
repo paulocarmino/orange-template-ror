@@ -25,7 +25,7 @@ gem "solid_cache", "~> 1.0"
 gem "solid_queue", "~> 1.2"
 gem "solid_cable", "~> 3.0"
 gem "bootsnap", "~> 1.19", require: false
-gem "kamal", "~> 2.8", require: false
+gem "kamal", "~> 2.9", require: false
 gem "thruster", "~> 0.1.16", require: false
 gem "devise", "~> 4.9"
 gem "inertia_rails", "~> 3.13"
